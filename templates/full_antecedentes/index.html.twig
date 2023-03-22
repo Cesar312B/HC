@@ -1,0 +1,2871 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reporte{% endblock %}
+
+{% block body %}
+     {% set var = "Ingreso" %}  
+      {% set var2 = "Periódica" %}  
+      {% set var3 = "Salida" %}  
+       {% set var4 = "Reingreso" %}  
+ <a href="{{ path('aptitud_edit', {id: consulta.id, p: paciente.id}) }}" class="btn btn-block btn-outline-primary btn-sm" ><i class="fas fa-chevron-left"> Regresar a la ficha médica</i></a></br>
+            
+            <a href="javascript:void(0);" id="print_Button_Full" class="btn btn-block btn-primary" align="left" >Imprimir Historia Clínica Ocupacional</a>
+<div class="content">
+<img src="https://i.ibb.co/RBZB7KQ/rlogo.png" class="rounded mx-auto d-block" width="200" height="150"   >
+<h4 class="text-center">Historia Clínica Ocupacional</h4>
+
+
+ <table class="table table-striped" style="width:100%">
+   <img class="mr-3  img-thumbnail shadow-sm rounded mx-auto d-block" src="{{ asset('uploads/'~paciente.image) }}"  width="100" height="100" alt="Card image cap">
+   </br>
+ <h5 class="text-primary"> DATOS DEL ESTABLECIMIENTO - EMPRESA Y USUARIO</h5>  
+
+ 
+    
+        <tbody>
+          
+            <tr>
+                <th>Institución</th>
+                <td>Fundación ESPOIR</td>
+            
+                <th>RUC</th>
+                <td>1791789806001</td>
+
+                <th>Cédula</th>
+                <td>{{ paciente.cedula }}</td>
+
+                <th>Unidad Operativa</th>
+                <td>{{ paciente.unidadesoperativas.nombre }}</td>   
+
+                <th>Historia Clínica</th>
+                <td>{{ paciente.cedula }}</td> 
+            </tr>
+            <tr>
+                <th>Primer Nombre</th>
+                <td>{{ paciente.pnombre }}</td>
+                   
+                <th>Segundo Nombre</th>
+                <td>{{ paciente.snombre }}</td>
+
+                <th>Primer Apellido</th>
+                <td>{{ paciente.papellido }}</td>
+         
+                <th>Segundo Apellido</th>
+                <td>{{ paciente.sapellido }}</td>
+         
+                <th>Sexo</th>
+                <td>{{ paciente.sexo }}</td>
+        
+            </tr>
+            <tr>
+
+                <th>Edad</th>
+                <td>{{ date('now').diff((date(paciente.fechaNacimiento))).format('%y años') }}</td>
+
+                <th>Religión</th>
+                <td>{{ paciente.religion }}</td>
+
+                <th>Tipo de sangre</th>
+                <td>{{ paciente.tipoSangre }}</td>
+
+                <th>Lateralidad</th>
+                <td>{{ paciente.lateralidad }}</td>
+
+                <th>Orientación sexual</th>
+                <td>{{ paciente.orientacionsexual }}</td>
+                
+            </tr>
+            <tr>
+
+                <th>Identidad de género</th>
+                <td>{{ paciente.identidadgenero }}</td>
+
+                <th>Discapacidad</th>
+                <td>{{  paciente.discapacidad  ? paciente.discapacidad|json_encode : '' }}</td>
+
+                <th>Tipo discapacidad</th>
+                <td>{{ paciente.tipoDiscapacidad }}</td>
+
+                <th>Fecha de ingreso</th>
+                <td>{{ paciente.fechaIngreso ? paciente.fechaIngreso|date('Y-m-d') : '' }}</td>
+
+                <th>Puesto de trabajo</th>
+                <td>{{ paciente.puestotrabajo.nombre }}</td>
+                
+            </tr>
+            <tr>
+
+                <th>Estado civil</th>
+                <td>{{ paciente.estadoCivil }}</td>
+
+                <th>Correo</th>
+                <td>{{ paciente.emailPaciente }}</td>
+           
+                <th>Celular</th>
+                <td>{{ paciente.celular }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+
+<h5 class="text-primary">MOTIVO DE CONSULTA</h5>
+
+<table class="content-table table-sm" style="width:100%">
+  <thead>
+    <tr>
+      <th scope="col">Motivo de consulta</th>
+      <th scope="col">Fecha de atención</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{{consulta.motivoconsulta}}</td>
+      <td>{{consulta.fechaAtencion ? consulta.fechaAtencion|date('Y-m-d H:i:s') : '' }}</td>
+    </tr>
+  </tbody>
+</table>
+
+{% if consulta.motivoconsulta == var %}
+<h5 class="text-primary">ANTECEDENTES PERSONALES</h5>
+<h6> ANTECEDENTES CLÍNICOS Y QUIRÚRGICOS</h6>
+   <table id="exmaple" style="width:100%" class="content-table table-sm">
+        <thead>
+            <tr>
+               
+                <th>Antecedente clínico</th>
+                <th>Tratamiento clínico</th>
+                <th>Procedimiento</th>
+                <th>Tiempo</th>
+                <th>Complicaciones</th>
+
+
+            </tr>
+        </thead>
+        <tbody id="articles5">
+        {% for ant_quirugico in antq %}
+            <tr>
+  
+                <td>{{ ant_quirugico.ant_clinico }}</td>
+                <td>{{ ant_quirugico.tratamiento }}</td>
+                <td>{{ ant_quirugico.procedimiento }}</td>
+                 <td>{{ ant_quirugico.tiempo }}</td>
+                   <td>{{ ant_quirugico.complicaciones }}</td>
+               
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+ {% set s1 = "Mujer" %}  
+     {% set s2 = "Hombre" %}  
+<h6> ANTECEDENTES REPRODUCTIVOS </h6>
+     <table  id="example" style="width:100%" class="content-table table-sm">
+       <h7>Gíneco Obstrétricos</h7>
+        <thead>
+            <tr> 
+                <th>N° Hijos</th> 
+                <th>Vida Sexual</th> 
+                <th>Método Planificación</th>
+                 {% if paciente.sexo == s1 %}
+                 <th>Ciclos</th>
+                <th>Gestas</th>
+                <th>Partos</th>
+                <th>Abortos</th>
+                <th>Cesáreas</th>
+                <th>Menarquía(Edad)</th>
+                <th>Última Menstruación</th>
+                {% endif %}
+           
+            
+            </tr>
+        </thead>
+        <tbody id="articles">
+        {% for ant_reproductivo in antr %}
+            <tr>
+                <td>{{ ant_reproductivo.hijos }}</td>
+                 <td>{{ ant_reproductivo.vida_sexual }}</td> 
+                 <td>{{ ant_reproductivo.metodo_planificacion }}</td>
+                  {% if paciente.sexo == s1 %}
+                  <td>{{ ant_reproductivo.ciclos }}</td>
+                <td>{{ ant_reproductivo.gestas }}</td>
+                <td>{{ ant_reproductivo.partos }}</td>
+                <td>{{ ant_reproductivo.abortos }}</td>
+                <td>{{ ant_reproductivo.cesareas }}</td>
+                <td>{{ ant_reproductivo.menarquia }}</td>
+                <td>{{ ant_reproductivo.ultima_menstruacion ? ant_reproductivo.ultima_menstruacion|date('Y-m-d') : '' }}</td>
+                   {% endif %}
+     
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="18">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+ {% if paciente.sexo == s1 %}
+      <table  id="example" style="width:100%" class="content-table table-sm">
+        <h6>EXÁMENES REALIZADOS</h6>
+        <thead>
+            <tr> 
+                <th>Última Mastografía</th>
+                <th>Tiempo Mastografía</th>
+                <th>Resultado Mastografía</th>
+                <th>Colposcopía</th>
+                <th>Tiempo Colposcopía</th>
+                <th>Resultado Colposcopía</th>
+                <th>Papanicolau</th>
+                <th>Tiempo Papanicolau</th>
+                <th>Resultado Papanicolau</th>
+                <th>Eco Mamario</th>
+                <th>Tiempo Eco Mamario</th>
+                <th>Resultado Eco Mamario</th>
+            </tr>
+        </thead>
+        <tbody id="articles">
+        {% for ant_reproductivo in antr %}
+            <tr>
+                
+                <td>{{ ant_reproductivo.ultima_mastografia }}</td>
+                <td>{{ ant_reproductivo.tiempo_mastografia }}</td>
+                <td>{{ ant_reproductivo.resultado_mastografia }}</td>
+                <td>{{ ant_reproductivo.colposcopia }}</td>
+                <td>{{ ant_reproductivo.tiempo_colposcopia }}</td>
+                <td>{{ ant_reproductivo.resultado_colposcopia }}</td>
+                <td>{{ ant_reproductivo.papanicolaou }}</td>
+                <td>{{ ant_reproductivo.tiempo_papanicolaou }}</td>
+                <td>{{ ant_reproductivo.resultado_papanicolaou }}</td>
+                <td>{{ ant_reproductivo.eco_mamario }}</td>
+                <td>{{ ant_reproductivo.tiempo_ecomamario }}</td>
+                <td>{{ ant_reproductivo.resultado_ecomamario }}</td>
+               
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="18">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+     {% if paciente.sexo == s2 %}
+     <table  id="example" style="width:100%" class="content-table table-sm">
+       <h6> EXÁMENES MASCULINOS</h6>
+        <thead>
+            <tr> 
+               
+                <th>Examen Antígeno Prostático</th>
+                <th>Tiempo Antígeno Prostático</th>
+                <th>Resultado Antígeno Prostático</th>
+                <th>Examen Eco Prostático</th>
+                <th>Tiempo Eco Prostático</th>
+                <th>Resultado Eco Prostático</th>
+                 
+            
+            </tr>
+        </thead>
+        <tbody id="articles">
+        {% for ant_reproductivo in antr %}
+            <tr>
+           
+             
+
+                <td>{{ ant_reproductivo.antigeno_prostatico }}</td>
+                <td>{{ ant_reproductivo.tiempo_antigenoprostatico }}</td>
+                <td>{{ ant_reproductivo.resultado_antigenoprostatico }}</td>
+                <td>{{ ant_reproductivo.eco_prostatico }}</td>
+                <td>{{ ant_reproductivo.tiempo_ecoprostatico }}</td>
+                <td>{{ ant_reproductivo.resultado_ecoprostatico }}</td>
+             
+               
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="18">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+  {% endif %}
+
+
+<h6> ANTECEDENTES NO PATOLÓGICOS </h6 >
+
+
+      <table id="example" style="width:100%" class="content-table table-sm">
+      <h7> Actividades físicas</h7>
+        <thead>
+            <tr>
+                <th>Realiza Actividad Física</th>
+                <th>Actividad Física</th>
+                <th>Frecuencia</th>
+
+            </tr>
+        </thead>
+        <tbody id="articles">
+        {% for c in antn %}
+            <tr>
+                <td>{{ c.deporte_select }}</td>
+                <td>{{ c.actividad_fisica}} </td>
+                <td>{{ c.numero_actividad_fisica}} </td>
+      
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+
+    
+      <table id="example" style="width:100%" class="content-table table-sm">
+      <h7>Hábitos Tóxicos</h7>
+        <thead>
+            <tr>
+        
+
+                <th>Consumo de Alcohol</th>
+                <th>Frecuencia</th>
+                <th>Tiempo Consumo (años)</th>
+                <th>Exconsumidor</th>
+                <th>Abstinencia (años)</th>
+
+                <th>Consumo de Tabaco</th>
+                <th>Frecuencia</th>
+                <th>Tiempo Consumo (años)</th>
+                <th>Exconsumidor</th>
+                <th>Abstinencia (años)</th>
+
+                <th>Consumo de Drogas</th>
+                <th>Tipo de Droga</th>
+                <th>Frecuencia</th>
+                <th>Tiempo Consumo (años)</th>
+                <th>Exconsumidor</th>
+                <th>Abstinencia (años)</th>
+         
+
+            </tr>
+        </thead>
+        <tbody id="articles">
+        {% for c in antn %}
+            <tr>
+      
+
+                <td>{{ c.sustancia_selec }}</td>
+                <td>{{ c.tiempo_consumo_a }}</td>
+                <td>{{ c.cantidad_a }}</td>
+                <td>{{ c.exconsumidor_a }}</td>
+                <td>{{ c.tiempo_abstinencia_a }}</td>
+
+                <td>{{ c.tabaco }}</td>
+                <td>{{ c.tiempo_consumo }}</td>
+                <td>{{ c.cantidad }}</td>
+                <td>{{ c.exconsumidor }}</td>
+                <td>{{ c.tiempo_abstinencia }}</td>
+
+                <td>{{ c.uso_sustancias }}</td>
+                <td>{{ c.droga_descripcion }}</td>
+                <td>{{ c.tiempo_consumo_d }}</td>
+                <td>{{ c.numero_sustancias }}</td>
+                <td>{{ c.ex_consumidor }}</td>
+                <td>{{ c.tiempo_abstinencia_d }}</td>
+
+             
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+     <table id="example" style="width:100%" class="content-table table-sm">
+      <h7>Consumo de Medicamentos</h7>
+        <thead>
+            <tr>
+                <th>Consumo de Medicamentos</th>
+                <th>Medicación Habitual</th>
+                <th>Cantidad por semana</th>
+            </tr>
+        </thead>
+        <tbody id="articles">
+        {% for c in antn %}
+            <tr>
+        
+                <td>{{ c.medicamento_select }}</td>
+                <td>{{ c.medicacion_abitual }}</td>
+                <td>{{ c.cantdad_medicacion }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+<h5 class="text-primary">ANTECEDENTES DE TRABAJO</h5>
+  <table id="example" style="width:100%" class="content-table table-sm">
+  <h6> Antecedentes de empleos anteriores </h6>
+        <thead>
+            <tr>
+              <th>Empresa</th>
+               <th>Puesto de Trabajo</th>
+                <th>Actividades</th>
+                 <th>Tiempo Trabajando</th>
+                  <th>Riesgos</th>
+            </tr>
+        </thead>
+        <tbody id="articles6">
+        {% for ant_laborale in antl %}
+            <tr>
+                <td>{{ ant_laborale.empresa }}</td>
+                 <td>{{ ant_laborale.puesto_trabajo }}</td>
+                  <td>{{ ant_laborale.actividades }}</td>
+                   <td>{{ ant_laborale.tiempo_trabajo }}</td>
+                    <td>{{ ant_laborale.riesgo  ? ant_laborale.riesgo|json_encode : 'JSON_INVALID_UTF8_SUBSTITUTE' }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+     <table id="example" style="width:100%" class="content-table table-sm">
+     <h6> Accidentes de trabajo y Enfermedades profesionales </h6>
+        <thead>
+            <tr>
+                    <th>Accidente Laboral</th>
+                     <th>Descripción Accidente Laboral</th>
+                     <th>Fecha Accidente</th>
+                       <th>Observaciones</th>
+                       <th>Enfermedad Laboral</th>
+                       <th>Descripción de Enfermedad</th>
+                         <th>Fecha de Enfermedad Laboral</th>
+                          <th>Observaciones</th>
+                            <th>Actividades Extra</th>
+        
+            </tr>
+        </thead>
+        <tbody id="articles6">
+        {% for ant_laborale in antl %}
+            <tr>
+                     <td>{{ ant_laborale.ac_trabajo }}</td>
+                     <td>{{ ant_laborale.descripcion_accidentes }}</td>
+                      <td>{{ ant_laborale.fecha_accidente ?  ant_laborale.fecha_accidente|date('Y-m-d') : '' }}</td>
+                      <td>{{ ant_laborale.observaciones }}</td>
+                     <td>{{ ant_laborale.enferemedad }}</td>
+                     <td>{{ ant_laborale.descripcion_emfermedad }}</td>
+                      <td>{{ ant_laborale.fecha_enfermedad ? ant_laborale.fecha_enfermedad|date('Y-m-d') : '' }}</td>
+                       <td>{{ ant_laborale.ob_enfermedades}}</td>
+                          <td>{{ ant_laborale.act_extra}}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+     
+
+
+<h5 class="text-primary">ANTECEDENTES HEREDOFAMILIARES</h5>
+       <table id="exmaple" style="width:100%" class="content-table table-sm">
+        <thead>
+            <tr>
+                <th>Patología</th>
+                <th>Descripción Enfermedad</th>
+                <th>Parentesco</th>
+            </tr>
+        </thead>
+        <tbody id="articles4">
+        {% for c in antf %}
+            <tr>
+                <td>{{ c.Patologia }}</td>
+                <td>{{ c.descripcion }}</td>
+                <td>{{ c.Parentesco }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <h5 class="text-primary">FACTORES DE RIESGO DEL PUESTO DE TRABAJO:</h5> 
+    <h6>PUESTO: {{ paciente.puestotrabajo.nombre }}</h6>
+     <table style="width:100%" class=" table-sm">
+
+        <thead>
+            <tr>
+             
+                <th>Actividad</th>
+                <th>Riesgos</th>
+            </tr>
+        </thead>
+       <tbody>
+        {% for p in puesto %}
+            <tr>
+             <td>{{ p.actividad}} </td>
+             
+              <td>{{(p.riesgos|json_encode|raw)}} </td>
+
+            </tr>
+
+          {% else %}
+            <tr>
+                <td colspan="3">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+  </table>
+
+<h5 class="text-primary">ACTIVIDADES EXTRA LABORALES</h5>
+    <table id="example" style="width:100%" class="content-table table-sm">
+        <thead>
+            <tr>
+            <th>Actividades Extra</th>
+            </tr>
+        </thead>
+        <tbody id="articles6">
+        {% for ant_laborale in antl %}
+            <tr>             
+             <td>{{ ant_laborale.act_extra}}</td>
+            </tr>
+        {% else %}
+            <tr>
+            <td colspan="2">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+<h5 class="text-primary">ENFERMEDAD ACTUAL</h5>
+
+ <table  id="example" style="width:100%" class="content-table table-sm">
+        <thead>
+            <tr>
+                <th>Enfermedad Actual</th>
+            </tr>
+        </thead>
+        <tbody id="articles">
+        {% for ant_patologico in antp %}
+            <tr>
+                <td>{{ ant_patologico.enfermedad_actual }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="15">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+<h5 class="text-primary">REVISIÓN ACTUAL DE ÓRGANOS Y SISTEMAS</h5>
+     <table  id="example" style="width:100%" class="content-table table-sm">
+        <thead>
+            <tr>
+        
+                <th>Piel Anexos</th>
+                <th>Órganos Sentidos</th>
+                <th>Respiratorio</th>
+                <th>Cardiovascular</th>
+                <th>Digestivo</th>
+                <th>Génito Urinario</th>
+                <th>Músculo Esquelético</th>
+                <th>Endócrino</th>
+                <th>Hemolinfático</th>
+                <th>Nervioso</th>
+                <th>Observaciones</th>
+       
+            </tr>
+        </thead>
+        <tbody id="articles">
+        {% for ant_patologico in antp %}
+            <tr>
+                <td>{{ ant_patologico.piel_anexos }}</td>
+                <td>{{ ant_patologico.organos_sentidos }}</td>
+                <td>{{ ant_patologico.respiratorio }}</td>
+                <td>{{ ant_patologico.cardiovascular }}</td>
+                <td>{{ ant_patologico.digestivo }}</td>
+                <td>{{ ant_patologico.genito_urinario}}</td>
+                <td>{{ ant_patologico.musculo_esqueletico }}</td>
+                <td>{{ ant_patologico.endocrino }}</td>
+                <td>{{ ant_patologico.hemolinfatico }}</td>
+                <td>{{ ant_patologico.nervioso }}</td>
+                <td>{{ ant_patologico.observaciones }}</td>
+
+           
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="15">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+<h5 class="text-primary">CONSTANTES VITALES Y ANTROPOMETRÍA</h5>
+  <table class="table table-striped">
+       <tbody>  
+       <tr>
+            <th>Estatura </th>
+                <td>
+            {% if  consulta.signosvitales.estatura is defined and consulta.signosvitales.estatura is null  %}
+            {% elseif consulta.signosvitales.estatura  is defined and consulta.signosvitales.estatura is not null  %}
+            {{ consulta.signosvitales.estatura}} Cm
+          </td> 
+            {% endif %} 
+       </tr>
+
+        <tr>
+            <th>Peso </th>
+                <td>
+            {% if  consulta.signosvitales.peso is defined and  consulta.signosvitales.peso is null  %}
+            {% elseif  consulta.signosvitales.peso is defined and  consulta.signosvitales.peso is not null  %}
+            {{ consulta.signosvitales.peso}} Kg
+          </td>
+            {% endif %}
+        </tr>
+            {% if  consulta.signosvitales.peso is defined and  consulta.signosvitales.peso is null  %}
+            {% elseif  consulta.signosvitales.peso is defined and  consulta.signosvitales.peso is not null  %}
+            {% set masacorporal = 0 %}
+            {% set masacorporal = ((consulta.signosvitales.peso)/(consulta.signosvitales.estatura **2))*10000 %}
+        <tr>
+            <th>Masa Corporal</th>
+                <td>
+                    {{ masacorporal|number_format(2)}}
+
+                    {% if masacorporal  <= 18.5  and  masacorporal is not null %}
+                        ->Bajo peso
+                    {% elseif masacorporal >= 18.6  and  masacorporal <= 24.9 %}
+                        ->Normal
+                    {% elseif masacorporal >= 25  and  masacorporal <= 29.9 %}
+                        ->Sobrepeso
+                    {% elseif masacorporal >= 30 %}
+                        ->Obesidad
+                    {% endif %}
+            {% endif %}
+                 </td>
+        </tr>
+        <tr>
+            <th>Temperatura Grados</th>
+                <td>{{ consulta.signosvitales.temperatura}} 
+                    {% if consulta.signosvitales.temperatura >= 37 %}
+                        ->Fiebre
+                    {% elseif consulta.signosvitales.temperatura < 36 and  consulta.signosvitales.temperatura is not null %}
+                        ->Hipotermia
+                    {% elseif consulta.signosvitales.temperatura >= 36 %}
+                        ->Normal
+                    {% endif %}
+                </td>
+        </tr>
+        <tr>
+                
+                 <th>Frecuencia Respiratoria Por Minuto</th>
+                <td>{{ consulta.signosvitales.frecuenciarespiratoria}}
+                {% if consulta.signosvitales.frecuenciarespiratoria >= 12 and consulta.signosvitales.frecuenciarespiratoria <= 20 %}
+                     ->Normal
+                  {% elseif consulta.signosvitales.frecuenciarespiratoria >= 20 %}
+                     ->Taquipnea
+                  {% elseif consulta.signosvitales.frecuenciarespiratoria <= 12 and  consulta.signosvitales.grasacorporal is not null %}
+                    ->Bradipnea
+                {% endif %}
+                </td>
+                </tr>
+                <tr>
+                 <th>PA. Sistole</th>
+                   <td>
+                   {{consulta.signosvitales.sistole}}
+                    {% if consulta.signosvitales.sistole >= 90  and consulta.signosvitales.sistole <= 120 %}
+                    ->Normal
+                     {% elseif consulta.signosvitales.sistole  >= 121   and consulta.signosvitales.sistole <= 139 %}
+                     ->PHTA
+                     {% elseif consulta.signosvitales.sistole  >= 140   %}
+                     ->HTA
+                {% endif %}
+                </td>
+                    
+
+                </tr>
+                <tr>
+                 <th>PA. Diastole</th>
+                  <td> 
+                  {{ consulta.signosvitales.diastole}}
+                  {% if consulta.signosvitales.diastole >= 60  and consulta.signosvitales.diastole <= 80 %}
+                     ->Normal
+                     {% elseif consulta.signosvitales.diastole  >= 81   and consulta.signosvitales.diastole <= 89 %}
+                     ->PHTA
+                       {% elseif consulta.signosvitales.diastole  >= 90   %}
+                       ->HTA
+                   {% endif %}
+               </td>
+                </tr>
+                <tr>
+                 <th>Frecuencia Cardiaca</th>
+                <td>{{ consulta.signosvitales.frecuenciacardiaca}}
+                   {% if consulta.signosvitales.frecuenciacardiaca >= 100 %}
+                    ->Taquicardia
+                  {% elseif consulta.signosvitales.frecuenciacardiaca <= 60 and  consulta.signosvitales.frecuenciacardiaca is not null %}
+                    ->Bradicardia
+                    {% elseif consulta.signosvitales.frecuenciacardiaca > 60 and consulta.signosvitales.frecuenciacardiaca < 100 %}
+                    ->Normal
+                  {% endif %}
+                </td>
+                </tr>
+                <tr>
+                 <th>Saturación de Oxígeno</th>
+                <td> 
+                 {{ consulta.signosvitales.saturacionoxigeno}}
+                 {% if  consulta.signosvitales.saturacionoxigeno  >= 95 and  consulta.signosvitales.saturacionoxigeno <= 100  %}
+                 ->Normal
+                {% elseif  consulta.signosvitales.saturacionoxigeno  > 90 and  consulta.signosvitales.saturacionoxigeno <= 94  %}
+                ->Hipoxemia leve
+                {% elseif  consulta.signosvitales.saturacionoxigeno  <= 90 and  consulta.signosvitales.grasacorporal is not null %}
+                 ->Hipoxemia severa
+                  {% endif %}
+
+              </td>
+                </tr>
+         </tbody> 
+
+ </table>
+
+
+<h5 class="text-primary">EXAMEN FÍSICO REGIONAL</h5>
+<table id="example" style="width:100%" class="content-table table-lg">
+        <thead>
+            <tr>
+            
+                <th>Piel</th>
+                <th>Ojos</th>
+                <th>Oido</th>
+                <th>Oro farinje</th>
+                <th>Nariz</th>
+                <th>Cuello</th>
+                <th>Torax</th>
+                <th>Abdomen</th>
+                <th>Columna</th>
+                <th>Pelvis</th>
+                <th>Extremidades</th>
+                <th>Neurologico</th>
+                <th>Observaciones</th>
+            </tr>
+        </thead>
+        <tbody id="articles5" >
+        {% for examen_fisico in examen_fisicos %}
+            <tr>
+                <td>{{ examen_fisico.piel ? examen_fisico.piel|json_encode : '' }}</td>
+                <td>{{ examen_fisico.ojos ? examen_fisico.ojos|json_encode : '' }}</td>
+                <td>{{ examen_fisico.oido ? examen_fisico.oido|json_encode : '' }}</td>
+                <td>{{ examen_fisico.oro_farinje ? examen_fisico.oro_farinje|json_encode : '' }}</td>
+                <td>{{ examen_fisico.nariz ? examen_fisico.nariz|json_encode : '' }}</td>
+                <td>{{ examen_fisico.cuello ? examen_fisico.cuello|json_encode : '' }}</td>
+                <td>{{ examen_fisico.torax1 ? examen_fisico.torax1|json_encode : ''}}</td>
+                <td>{{ examen_fisico.abdomen ? examen_fisico.abdomen|json_encode : ''}}</td>
+                <td>{{ examen_fisico.columna ? examen_fisico.piel|json_encode : '' }}</td>
+                <td>{{ examen_fisico.pelvis ? examen_fisico.pelvis|json_encode : '' }}</td>
+                <td>{{ examen_fisico.extremidades ? examen_fisico.extremidades|json_encode : '' }}</td>
+                <td>{{ examen_fisico.neurologico ? examen_fisico.neurologico|json_encode : '' }}</td>
+                <td>{{ examen_fisico.observaciones }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="16">No existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+ <h5 class="text-primary">OTROS ANTECEDENTES</h5>
+
+    <table  id="example" style="width:100%" class="content-table table-sm">
+        <thead>
+            <tr>
+            
+                <th>Alergias</th>
+                 <th>Vacunas</th>
+                  <th>N-Dosis</th>
+                <th>Fecha de vacunación</th>
+            </tr>
+        </thead>
+        <tbody id="articles">
+        {% for otros_antecedentes in anto %}
+            <tr>
+               
+                <td>{{ otros_antecedentes.alergias }}</td>
+                 <td>{{ otros_antecedentes.vacuna }}</td>
+                  <td>{{ otros_antecedentes.Dosis }}</td>
+                   <td>{{ otros_antecedentes.fecha_vacuna  ? otros_antecedentes.fecha_vacuna|date('Y-m-d') : ''}}</td>
+               
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+       <h5 class="text-primary">RESULTADO DE EXÁMENES GENERALES Y ESPECÍFICOS DE ACUERDO AL RIESGO Y PUESTO DE TRABAJO</h5>
+    <table class="content-table table-sm" style="width:100%">
+        <thead>
+            <tr>
+                <th>Nombre examen</th>
+                <th>Fecha examen</th>
+                <th>Resultado examen</th>
+                <th>Observaciones</th>
+            </tr>
+        </thead>
+        <tbody id="articles5">
+        {% for examene in examenes %}
+            <tr>
+              
+                <td>{{ examene.nombre_examen }}</td>
+                <td>{{ examene.fecha_examen ? examene.fecha_examen|date('Y-m-d') : '' }}</td>
+                <td>{{ examene.resultado_examen }}</td>
+                <td>{{ examene.Observaciones}}</td>
+               
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+   <h5 class="text-primary">DIAGNÓSTICOS</h5>
+    <table  id="dgo" style="width:100%" class="content-table table-sm">
+        <thead>
+            <tr>
+                  <th>Enfermedad</th>
+                  <th>Medicamento</th>
+                  <th>Presentación</th>
+                  <th>Dosis</th>
+                  <th>Cantidad</th>
+                  <th>Frecuencia</th>
+                  <th>Duración</th>
+                  <th>Indicaciones</th>
+            </tr>
+                 
+            </tr>
+        </thead>
+        <tbody id="articles">
+        {% for diagnostico in diagnosticos %}
+            <tr>
+                <td>Diagnóstico CIE: {{ diagnostico.descripcion }} </br> Grupo CIE: {{ diagnostico.tipo }} </br> Tipo de Diagnóstico: {{ diagnostico.tipo_diagnostico}}</td>
+                <td>{{ diagnostico.medicamento}}</td>
+                <td>{{ diagnostico.presentacion}}</td>
+                <td>{{ diagnostico.dosis}}</td>
+                <td>{{ diagnostico.cantidad}}</td>
+                <td>{{ diagnostico.frecuencia}}</td>
+                <td>{{ diagnostico.duracion}}</td>
+                 <td>{{ diagnostico.indicaciones}}</td>
+              
+                     
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+
+
+</br>
+</br>
+
+<h5 class="text-primary">EXÁMENES</h5>
+<h6 class="text-primary">EXÁMENES DE LABORATORIO</h6>
+   <table  id="example2" style="width:100%" class="content-table table-sm">
+        <thead>
+            <tr>
+                  <th>Registros</th> 
+                   <th>Exámenes de laboratorio</th> 
+            </tr>
+        </thead>
+        <tbody>
+     
+       {% for diagnostico in diagnosticos|filter(diagnostico => diagnostico.solicitud != null ) %}
+
+            <tr>
+                
+                <td class="transformacion2">Diagnóstico CIE: {{diagnostico.codigo|upper}}-{{ diagnostico.descripcion|upper}} </br> Examen de Laboratorio: {{ diagnostico.solicitud|upper}}</td>
+                <td> </td>
+              
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+<h6 class="text-primary">EXÁMENES COMPLEMEMTARIOS</h6>
+       <table  id="example3" style="width:100%" class="content-table table-sm">
+        <thead>
+            <tr>
+                  <th>Registros</th> 
+                   <th>Exámenes Complementarios</th> 
+            </tr>
+        </thead>
+        <tbody>
+     
+       {% for diagnostico in diagnosticos|filter(diagnostico => diagnostico.solicitud_complementaria != null) %}
+
+            <tr>
+                
+                <td>Diagnóstico CIE: {{diagnostico.codigo|upper}}-{{ diagnostico.descripcion|upper }} </br> Examen Complementarios: <b>{{ diagnostico.solicitud_complementaria|upper}}</b> </td>
+                <td> </td>
+              
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+<h6 class="text-primary">FISIOTERAPIA</h6>
+        <table  id="example4" style="width:100%" class="content-table table-sm">
+        <thead>
+            <tr>
+                  <th>Registros</th> 
+                   <th>Pedidos de Fisioterapia</th> 
+            </tr>
+        </thead>
+        <tbody>
+     
+       {% for diagnostico in diagnosticos|filter(diagnostico => diagnostico.procedimiento != null) %}
+
+            <tr>
+                
+                <td>Diagnóstico CIE: {{diagnostico.codigo|upper}}-{{ diagnostico.descripcion|upper }} </br> Pedido de Fisioterapia: <b>{{ diagnostico.procedimiento|upper}}</b> </td>
+                <td> </td>
+              
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+<h6 class="text-primary">INTERCONSULTA</h6>
+
+       <table  id="example5" style="width:100%" class="content-table table-sm">
+        <thead>
+            <tr>
+                  <th>Registros</th> 
+                   <th>Pedidos de Interconsulta</th> 
+            </tr>
+        </thead>
+        <tbody>
+     
+       {% for diagnostico in diagnosticos|filter(diagnostico => diagnostico.interconsulta != null ) %}
+
+            <tr>
+                
+                <td>Diagnóstico CIE: {{diagnostico.codigo|upper}}-{{ diagnostico.descripcion|upper}} </br> Pedido de Interconsulta: <b>{{ diagnostico.interconsulta|upper}}</b> </td>
+                <td> </td>
+              
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+
+<h5 class="text-primary">APTITUD MÉDICA PARA EL TRABAJO</h5>   
+<table class="content-table table-sm" style="width:100%">
+  <thead>
+    <tr>
+      <th scope="col">Aptitud</th>
+      <th scope="col">Observaciones</th>
+      <th scope="col">Recomendaciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+   <td>{{ consulta.tipoaptitud}}</td>
+      <td>{{ consulta.observaciones}}</td>
+         <td>{{ consulta.limitaciones}}</td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+ {% endif %}
+
+{% if consulta.motivoconsulta == var2 %}
+<h5 class="text-primary">ANTECEDENTES PERSONALES</h5>
+<h6> Antecedentes Clínico Quirúrgicos </h6>
+   <table id="exmaple" style="width:100%" class="content-table table-sm">
+        <thead>
+            <tr>
+               
+                <th>Antecedente Clínico</th>
+                <th>Tratamiento</th>
+                <th>Procedimiento</th>
+                <th>Tiempo(años)</th>
+                <th>Complicaciones</th>
+
+
+            </tr>
+        </thead>
+        <tbody id="articles5">
+        {% for ant_quirugico in antq %}
+            <tr>
+  
+                <td>{{ ant_quirugico.ant_clinico }}</td>
+                <td>{{ ant_quirugico.tratamiento }}</td>
+                <td>{{ ant_quirugico.procedimiento }}</td>
+                 <td>{{ ant_quirugico.tiempo }}</td>
+                   <td>{{ ant_quirugico.complicaciones }}</td>
+               
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+<h6> Antecedentes No  Patológicos </h6>
+
+
+      <table id="example" style="width:100%" class="content-table table-sm">
+      <h7> Actividades físicas</h7>
+        <thead>
+            <tr>
+                <th>Realiza Actividad Física</th>
+                <th>Actividad Física</th>
+                <th>Frecuencia</th>
+
+            </tr>
+        </thead>
+        <tbody id="articles">
+        {% for c in antn %}
+            <tr>
+                <td>{{ c.deporte_select }}</td>
+                <td>{{ c.actividad_fisica}} </td>
+                <td>{{ c.numero_actividad_fisica}} </td>
+      
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+
+    
+      <table id="example" style="width:100%" class="content-table table-sm">
+      <h7>Hábitos Tóxicos</h7>
+        <thead>
+            <tr>
+        
+
+                <th>Consumo de Alcohol</th>
+                <th>Frecuencia</th>
+                <th>Tiempo Consumo(años)</th>
+                <th>Exconsumidor</th>
+                <th>Abstinencia(años)</th>
+
+                <th>Consumo de Tabaco</th>
+                <th>Frecuencia</th>
+                <th>Tiempo Consumo(años)</th>
+                <th>Exconsumidor</th>
+                <th>Abstinencia(años)</th>
+
+                <th>Consumo de Drogas</th>
+                <th>Tipo de Droga</th>
+                <th>Frecuencia</th>
+                <th>Tiempo Consumo(años)</th>
+                <th>Exconsumidor</th>
+                <th>Abstinencia (años)</th>
+         
+
+            </tr>
+        </thead>
+        <tbody id="articles">
+        {% for c in antn %}
+            <tr>
+      
+
+                <td>{{ c.sustancia_selec }}</td>
+                <td>{{ c.tiempo_consumo_a }}</td>
+                <td>{{ c.cantidad_a }}</td>
+                <td>{{ c.exconsumidor_a }}</td>
+                <td>{{ c.tiempo_abstinencia_a }}</td>
+
+                <td>{{ c.tabaco }}</td>
+                <td>{{ c.tiempo_consumo }}</td>
+                <td>{{ c.cantidad }}</td>
+                <td>{{ c.exconsumidor }}</td>
+                <td>{{ c.tiempo_abstinencia }}</td>
+
+                <td>{{ c.uso_sustancias }}</td>
+                <td>{{ c.droga_descripcion }}</td>
+                <td>{{ c.tiempo_consumo_d }}</td>
+                <td>{{ c.numero_sustancias }}</td>
+                <td>{{ c.ex_consumidor }}</td>
+                <td>{{ c.tiempo_abstinencia_d }}</td>
+
+             
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+     <table id="example" style="width:100%" class="content-table table-sm">
+      <h7>Consumo de Medicamentos</h7>
+        <thead>
+            <tr>
+            
+                <th>Consumo de Medicamentos</th>
+                <th>Medicación Habitual</th>
+                <th>Tiempo de consumo(años)</th>
+
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="articles">
+        {% for c in antn %}
+            <tr>
+        
+                <td>{{ c.medicamento_select }}</td>
+                <td>{{ c.medicacion_abitual }}</td>
+                <td>{{ c.cantdad_medicacion }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+<h5 class="text-primary">ANTECEDENTES DE TRABAJO </h5>
+  <table id="example" style="width:100%" class="content-table table-sm">
+  <h6> Descripción del Puesto de Trabajo </h6>
+        <thead>
+            <tr>
+              <th>Empresa</th>
+               <th>Puesto de Trabajo</th>
+                <th>Actividades</th>
+                 <th>Tiempo Trabajando</th>
+                  <th>Riesgos</th>
+            </tr>
+        </thead>
+        <tbody id="articles6">
+        {% for ant_laborale in antl %}
+            <tr>
+                <td>{{ ant_laborale.empresa }}</td>
+                 <td>{{ ant_laborale.puesto_trabajo }}</td>
+                  <td>{{ ant_laborale.actividades }}</td>
+                   <td>{{ ant_laborale.tiempo_trabajo }}</td>
+                    <td>{{ ant_laborale.riesgo  ? ant_laborale.riesgo|json_encode : '' }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+     <table id="example" style="width:100%" class="content-table table-sm">
+     <h6> Accidentes de trabajo y Enfermedades Profesionales </h6>
+        <thead>
+            <tr>
+                    <th>Accidente Laboral</th>
+                     <th>Descripción Accidente Laboral</th>
+                     <th>Fecha Accidente</th>
+                       <th>Observaciones</th>
+                       <th>Enfermedad Laboral</th>
+                       <th>Descripción de Enfermedad</th>
+                         <th>Fecha de Enfermedad Laboral</th>
+                          <th>Observaciones</th>
+                            <th>Actividades Extra</th>
+        
+            </tr>
+        </thead>
+        <tbody id="articles6">
+        {% for ant_laborale in antl %}
+            <tr>
+                     <td>{{ ant_laborale.ac_trabajo }}</td>
+                     <td>{{ ant_laborale.descripcion_accidentes }}</td>
+                      <td>{{ ant_laborale.fecha_accidente ?  ant_laborale.fecha_accidente|date('Y-m-d') : '' }}</td>
+                      <td>{{ ant_laborale.observaciones }}</td>
+                     <td>{{ ant_laborale.enferemedad }}</td>
+                     <td>{{ ant_laborale.descripcion_emfermedad }}</td>
+                      <td>{{ ant_laborale.fecha_enfermedad ? ant_laborale.fecha_enfermedad|date('Y-m-d') : '' }}</td>
+                       <td>{{ ant_laborale.ob_enfermedades}}</td>
+                          <td>{{ ant_laborale.act_extra}}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+     
+<h5 class="text-primary">ANTECEDENTES FAMILIARES</h5>
+       <table id="exmaple" style="width:100%" class="content-table table-sm">
+        <thead>
+            <tr>
+                <th>Patología</th>
+                <th>Descripción Enfermedad</th>
+                <th>Parentesco</th>
+            </tr>
+        </thead>
+        <tbody id="articles4">
+        {% for c in antf %}
+            <tr>
+                <td>{{ c.Patologia }}</td>
+                <td>{{ c.descripcion }}</td>
+                <td>{{ c.Parentesco }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <h5 class="text-primary">FACTORES DE RIESGO DEL PUESTO DE TRABAJO</h5>
+    <H6>PUESTO: {{ paciente.puestotrabajo.nombre }}</H6>
+     <table style="width:100%" class=" table-sm">
+
+        <thead>
+            <tr>
+             
+                <th>Actividad</th>
+                <th>Riesgos</th>
+            </tr>
+        </thead>
+       <tbody>
+        {% for p in puesto %}
+            <tr>
+             <td>{{ p.actividad}} </td>
+             
+              <td>{{(p.riesgos|json_encode|raw)}} </td>
+
+            </tr>
+
+          {% else %}
+            <tr>
+                <td colspan="3">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+  </table>
+
+<h5 class="text-primary">ENFERMEDAD ACTUAL</h5>
+
+ <table  id="example" style="width:100%" class="content-table table-sm">
+        <thead>
+            <tr>
+                <th>Enfermedad Actual</th>
+            </tr>
+        </thead>
+        <tbody id="articles">
+        {% for ant_patologico in antp %}
+            <tr>
+                <td>{{ ant_patologico.enfermedad_actual }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="15">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+<h5 class="text-primary">REVISIÓN DE ÓRGANOS Y SISTEMAS</h5>
+     <table  id="example" style="width:100%" class="content-table table-sm">
+        <thead>
+            <tr>
+        
+                <th>Piel Anexos</th>
+                <th>Órganos Sentidos</th>
+                <th>Respiratorio</th>
+                <th>Cardiovascular</th>
+                <th>Digestivo</th>
+                <th>Génito Urinario</th>
+                <th>Músculo Esquelético</th>
+                <th>Endócrino</th>
+                <th>Hemolinfático</th>
+                <th>Nervioso</th>
+                <th>Observaciones</th>
+       
+            </tr>
+        </thead>
+        <tbody id="articles">
+        {% for ant_patologico in antp %}
+            <tr>
+                <td>{{ ant_patologico.piel_anexos }}</td>
+                <td>{{ ant_patologico.organos_sentidos }}</td>
+                <td>{{ ant_patologico.respiratorio }}</td>
+                <td>{{ ant_patologico.cardiovascular }}</td>
+                <td>{{ ant_patologico.digestivo }}</td>
+                <td>{{ ant_patologico.genito_urinario}}</td>
+                <td>{{ ant_patologico.musculo_esqueletico }}</td>
+                <td>{{ ant_patologico.endocrino }}</td>
+                <td>{{ ant_patologico.hemolinfatico }}</td>
+                <td>{{ ant_patologico.nervioso }}</td>
+                <td>{{ ant_patologico.observaciones }}</td>
+
+           
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="15">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+<h5 class="text-primary">CONSTANTES VITALES Y ANTROPOMETRÍA</h5>
+  <table class="table table-striped">
+       <tbody>  
+       <tr>
+            <th>Estatura </th>
+                <td>
+            {% if  consulta.signosvitales.estatura is defined and consulta.signosvitales.estatura is null  %}
+            {% elseif consulta.signosvitales.estatura  is defined and consulta.signosvitales.estatura is not null  %}
+            {{ consulta.signosvitales.estatura}} Cm
+          </td> 
+            {% endif %} 
+       </tr>
+
+        <tr>
+            <th>Peso </th>
+                <td>
+            {% if  consulta.signosvitales.peso is defined and  consulta.signosvitales.peso is null  %}
+            {% elseif  consulta.signosvitales.peso is defined and  consulta.signosvitales.peso is not null  %}
+            {{ consulta.signosvitales.peso}} Kg
+          </td>
+            {% endif %}
+        </tr>
+            {% if  consulta.signosvitales.peso is defined and  consulta.signosvitales.peso is null  %}
+            {% elseif  consulta.signosvitales.peso is defined and  consulta.signosvitales.peso is not null  %}
+            {% set masacorporal = 0 %}
+            {% set masacorporal = ((consulta.signosvitales.peso)/(consulta.signosvitales.estatura **2))*10000 %}
+        <tr>
+            <th>Masa Corporal</th>
+                <td>
+                    {{ masacorporal|number_format(2)}}
+
+                    {% if masacorporal  <= 18.5  and  masacorporal is not null %}
+                        ->Bajo peso
+                    {% elseif masacorporal >= 18.6  and  masacorporal <= 24.9 %}
+                        ->Normal
+                    {% elseif masacorporal >= 25  and  masacorporal <= 29.9 %}
+                        ->Sobrepeso
+                    {% elseif masacorporal >= 30 %}
+                        ->Obesidad
+                    {% endif %}
+            {% endif %}
+                 </td>
+        </tr>
+                <tr>
+                 <th>Temperatura Grados</th>
+                <td>{{ consulta.signosvitales.temperatura}} 
+                   {% if consulta.signosvitales.temperatura >= 37 %}
+                     ->Fiebre
+                  {% elseif consulta.signosvitales.temperatura < 36  and  consulta.signosvitales.grasacorporal is not null %}
+                    ->Hipotermia
+                    {% elseif consulta.signosvitales.temperatura >= 36 %}
+                    ->Normal
+                  {% endif %}
+                </td>
+                </tr>
+                <tr>
+                
+                 <th>Frecuencia Respiratoria Por Minuto</th>
+                <td>{{ consulta.signosvitales.frecuenciarespiratoria}}
+                {% if consulta.signosvitales.frecuenciarespiratoria >= 12 and consulta.signosvitales.frecuenciarespiratoria <= 20 %}
+                     ->Normal
+                  {% elseif consulta.signosvitales.frecuenciarespiratoria >= 20 %}
+                     ->Taquinea
+                  {% elseif consulta.signosvitales.frecuenciarespiratoria <= 12  and  consulta.signosvitales.grasacorporal is not null %}
+                    ->Bradipnea
+                {% endif %}
+                </td>
+                </tr>
+                <tr>
+                 <th>Sistole</th>
+                   <td>
+                   {{consulta.signosvitales.sistole}}
+                    {% if consulta.signosvitales.sistole >= 90  and consulta.signosvitales.sistole <= 120 %}
+                    ->Normal
+                     {% elseif consulta.signosvitales.sistole  >= 121   and consulta.signosvitales.sistole <= 139 %}
+                     ->PHTA
+                     {% elseif consulta.signosvitales.sistole  >= 140   %}
+                     ->HTA
+                {% endif %}
+                </td>
+                    
+
+                </tr>
+                <tr>
+                 <th>Diastole</th>
+                  <td> 
+                  {{ consulta.signosvitales.diastole}}
+                  {% if consulta.signosvitales.diastole >= 60  and consulta.signosvitales.diastole <= 80 %}
+                     Normal
+                     {% elseif consulta.signosvitales.diastole  >= 81   and consulta.signosvitales.diastole <= 89 %}
+                     ->PHTA
+                       {% elseif consulta.signosvitales.diastole  >= 90   %}
+                       ->HTA
+                   {% endif %}
+               </td>
+                </tr>
+                <tr>
+                 <th>Frecuencia Cardiaca</th>
+                <td>{{ consulta.signosvitales.frecuenciacardiaca}}
+                   {% if consulta.signosvitales.frecuenciacardiaca >= 100 %}
+                    ->Taquicardia
+                  {% elseif consulta.signosvitales.frecuenciacardiaca <= 60   and  consulta.signosvitales.frecuenciacardiaca is not null %}
+                    ->Bradicardia
+                    {% elseif consulta.signosvitales.frecuenciacardiaca > 60 and consulta.signosvitales.frecuenciacardiaca < 100 %}
+                    ->Normal
+                  {% endif %}
+                </td>
+                </tr>
+                
+                <tr>
+                 <th>Saturación de Oxígeno</th>
+                <td> 
+                 {{ consulta.signosvitales.saturacionoxigeno}}
+                 {% if  consulta.signosvitales.saturacionoxigeno  >= 95 and  consulta.signosvitales.saturacionoxigeno <= 100  %}
+                 ->Normal
+                {% elseif  consulta.signosvitales.saturacionoxigeno  > 90 and  consulta.signosvitales.saturacionoxigeno <= 94  %}
+                ->Hipoxemia leve
+                {% elseif  consulta.signosvitales.saturacionoxigeno  <= 90  and  consulta.signosvitales.grasacorporal is not null  %}
+                 ->Hipoxemia severa
+                  {% endif %}
+                </td>
+                </tr>
+
+         </tbody> 
+
+ </table>
+
+
+<h5 class="text-primary">EXAMEN FÍSICO REGIONAL</h5>
+<table id="example" style="width:100%" class="content-table table-lg">
+        <thead>
+            <tr>
+            
+                <th>Piel</th>
+                <th>Ojos</th>
+                <th>Oido</th>
+                <th>Oro farinje</th>
+                <th>Nariz</th>
+                <th>Cuello</th>
+                <th>Torax</th>
+                <th>Abdomen</th>
+                <th>Columna</th>
+                <th>Pelvis</th>
+                <th>Extremidades</th>
+                <th>Neurologico</th>
+                <th>Observaciones</th>
+            </tr>
+        </thead>
+        <tbody id="articles5" >
+        {% for examen_fisico in examen_fisicos %}
+            <tr>
+                <td>{{ examen_fisico.piel ? examen_fisico.piel|json_encode : '' }}</td>
+                <td>{{ examen_fisico.ojos ? examen_fisico.ojos|json_encode : '' }}</td>
+                <td>{{ examen_fisico.oido ? examen_fisico.oido|json_encode : '' }}</td>
+                <td>{{ examen_fisico.oro_farinje ? examen_fisico.oro_farinje|json_encode : '' }}</td>
+                <td>{{ examen_fisico.nariz ? examen_fisico.nariz|json_encode : '' }}</td>
+                <td>{{ examen_fisico.cuello ? examen_fisico.cuello|json_encode : '' }}</td>
+                <td>{{ examen_fisico.torax1 ? examen_fisico.torax1|json_encode : ''}}</td>
+                <td>{{ examen_fisico.abdomen ? examen_fisico.abdomen|json_encode : ''}}</td>
+                <td>{{ examen_fisico.columna ? examen_fisico.piel|json_encode : '' }}</td>
+                <td>{{ examen_fisico.pelvis ? examen_fisico.pelvis|json_encode : '' }}</td>
+                <td>{{ examen_fisico.extremidades ? examen_fisico.extremidades|json_encode : '' }}</td>
+                <td>{{ examen_fisico.neurologico ? examen_fisico.neurologico|json_encode : '' }}</td>
+                <td>{{ examen_fisico.observaciones }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="16">No existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+ <h5 class="text-primary">OTROS ANTECEDENTES</h5>
+
+    <table  id="example" style="width:100%" class="content-table table-sm">
+        <thead>
+            <tr>
+            
+                <th>Alergias</th>
+                 <th>Vacunas</th>
+                  <th>N-Dosis</th>
+                <th>Fecha_Vacunacion</th>
+            </tr>
+        </thead>
+        <tbody id="articles">
+        {% for otros_antecedentes in anto %}
+            <tr>
+               
+                <td>{{ otros_antecedentes.alergias }}</td>
+                 <td>{{ otros_antecedentes.vacuna }}</td>
+                  <td>{{ otros_antecedentes.Dosis }}</td>
+                   <td>{{ otros_antecedentes.fecha_vacuna  ? otros_antecedentes.fecha_vacuna|date('Y-m-d') : ''}}</td>
+               
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+       <h5 class="text-primary">RESULTADOS DE EXÁMENES GENERALES Y ESPECÍFICOS DE ACUERDO AL RIESGO Y PUESTO DE TRABAJO</h5>
+    <table class="content-table table-sm" style="width:100%">
+        <thead>
+            <tr>
+                <th>Nombre Examen</th>
+                <th>Fecha examen</th>
+                <th>Resultado examen</th>
+                <th>Observaciones</th>
+            </tr>
+        </thead>
+        <tbody id="articles5">
+        {% for examene in examenes %}
+            <tr>
+              
+                <td>{{ examene.nombre_examen }}</td>
+                <td>{{ examene.fecha_examen ? examene.fecha_examen|date('Y-m-d') : '' }}</td>
+                <td>{{ examene.resultado_examen }}</td>
+                <td>{{ examene.Observaciones}}</td>
+               
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+   <h5 class="text-primary">DIAGNÓSTICOS</h5>
+    <table  id="dgo" style="width:100%" class="content-table table-sm">
+        <thead>
+            <tr>
+                  <th>Enfermedad</th>
+                  <th>Medicamento</th>
+                  <th>Presentación</th>
+                  <th>Dosis</th>
+                  <th>Cantidad</th>
+                  <th>Frecuencia</th>
+                  <th>Duración</th>
+                  <th>Indicaciones</th>
+            </tr>
+                 
+            </tr>
+        </thead>
+        <tbody id="articles">
+        {% for diagnostico in diagnosticos %}
+            <tr>
+                <td>Diagnóstico CIE: {{ diagnostico.descripcion }} </br> Grupo CIE: {{ diagnostico.tipo }} </br> Tipo de Diagnóstico: {{ diagnostico.tipo_diagnostico}}</td>
+                <td>{{ diagnostico.medicamento}}</td>
+                <td>{{ diagnostico.presentacion}}</td>
+                <td>{{ diagnostico.dosis}}</td>
+                <td>{{ diagnostico.cantidad}}</td>
+                <td>{{ diagnostico.frecuencia}}</td>
+                <td>{{ diagnostico.duracion}}</td>
+                 <td>{{ diagnostico.indicaciones}}</td>
+              
+                     
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+
+
+</br>
+</br>
+
+<h5 class="text-primary">EXÁMENES</h5>
+<h6 class="text-primary">EXÁMENES DE LABORATORIO</h6>
+   <table  id="example2" style="width:100%" class="content-table table-sm">
+        <thead>
+            <tr>
+                  <th>Registros</th> 
+                   <th>Exámenes de laboratorio</th> 
+            </tr>
+        </thead>
+        <tbody>
+     
+       {% for diagnostico in diagnosticos|filter(diagnostico => diagnostico.solicitud  != null) %}
+
+            <tr>
+                
+                <td class="transformacion2">Diagnóstico CIE: {{diagnostico.codigo|upper}}-{{ diagnostico.descripcion|upper}} </br> Examen de Laboratorio: {{ diagnostico.solicitud|upper}}</td>
+                <td> </td>
+              
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+<h6 class="text-primary">EXÁMENES COMPLEMEMTARIOS</h6>
+       <table  id="example3" style="width:100%" class="content-table table-sm">
+        <thead>
+            <tr>
+                  <th>Registros</th> 
+                   <th>Exámenes Complementarios</th> 
+            </tr>
+        </thead>
+        <tbody>
+     
+       {% for diagnostico in diagnosticos|filter(diagnostico => diagnostico.solicitud_complementaria  != null) %}
+
+            <tr>
+                
+                <td>Diagnóstico CIE: {{diagnostico.codigo|upper}}-{{ diagnostico.descripcion|upper }} </br> Examen Complementarios: <b>{{ diagnostico.solicitud_complementaria|upper}}</b> </td>
+                <td> </td>
+              
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+<h6 class="text-primary">FISIOTERAPIA</h6>
+        <table  id="example4" style="width:100%" class="content-table table-sm">
+        <thead>
+            <tr>
+                  <th>Registros</th> 
+                   <th>Pedidos de Fisioterapia</th> 
+            </tr>
+        </thead>
+        <tbody>
+     
+       {% for diagnostico in diagnosticos|filter(diagnostico => diagnostico.procedimiento  != null) %}
+
+            <tr>
+                
+                <td>Diagnóstico CIE: {{diagnostico.codigo|upper}}-{{ diagnostico.descripcion|upper }} </br> Pedido de Fisioterapia: <b>{{ diagnostico.procedimiento|upper}}</b> </td>
+                <td> </td>
+              
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+<h6 class="text-primary">INTERCONSULTA</h6>
+
+       <table  id="example5" style="width:100%" class="content-table table-sm">
+        <thead>
+            <tr>
+                  <th>Registros</th> 
+                   <th>Pedidos de Interconsulta</th> 
+            </tr>
+        </thead>
+        <tbody>
+     
+       {% for diagnostico in diagnosticos|filter(diagnostico => diagnostico.interconsulta   != null) %}
+
+            <tr>
+                
+                <td>Diagnóstico CIE: {{diagnostico.codigo|upper}}-{{ diagnostico.descripcion|upper}} </br> Pedido de Interconsulta: <b>{{ diagnostico.interconsulta|upper}}</b> </td>
+                <td> </td>
+              
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+
+<h5 class="text-primary">APTITUD MÉDICA PARA EL TRABAJO</h5>   
+<table class="content-table table-sm" style="width:100%">
+  <thead>
+    <tr>
+      <th scope="col">Aptitud</th>
+      <th scope="col">Observaciones</th>
+      <th scope="col">Recomendaciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+   <td>{{ consulta.tipoaptitud}}</td>
+      <td>{{ consulta.observaciones}}</td>
+         <td>{{ consulta.limitaciones}}</td>
+    </tr>
+  </tbody>
+</table>
+
+ {% endif %}
+
+
+ {% if consulta.motivoconsulta == var3 %}
+
+ <h5 class="text-primary">ANTECEDENTES PERSONALES</h5>
+<h6> Antecedentes Clínico Quirúrgicos </h6>
+   <table id="exmaple" style="width:100%" class="content-table table-sm">
+        <thead>
+            <tr>
+               
+                <th>Antecedente Clínico</th>
+                <th>Tratamiento</th>
+                <th>Procedimiento</th>
+                <th>Tiempo</th>
+                <th>Complicaciones</th>
+
+
+            </tr>
+        </thead>
+        <tbody id="articles5">
+        {% for ant_quirugico in antq %}
+            <tr>
+  
+                <td>{{ ant_quirugico.ant_clinico }}</td>
+                <td>{{ ant_quirugico.tratamiento }}</td>
+                <td>{{ ant_quirugico.procedimiento }}</td>
+                 <td>{{ ant_quirugico.tiempo }}</td>
+                   <td>{{ ant_quirugico.complicaciones }}</td>
+               
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+<h5 class="text-primary">ANTECEDENTES DE TRABAJO</h5>
+  <table id="example" style="width:100%" class="content-table table-sm">
+  <h6> Descripción del Puesto de Trabajo </h6>
+        <thead>
+            <tr>
+              <th>Empresa</th>
+               <th>Puesto de Trabajo</th>
+                <th>Actividades</th>
+                 <th>Tiempo Trabajando</th>
+                  <th>Riesgos</th>
+            </tr>
+        </thead>
+        <tbody id="articles6">
+        {% for ant_laborale in antl %}
+            <tr>
+                <td>{{ ant_laborale.empresa }}</td>
+                 <td>{{ ant_laborale.puesto_trabajo }}</td>
+                  <td>{{ ant_laborale.actividades }}</td>
+                   <td>{{ ant_laborale.tiempo_trabajo }}</td>
+                    <td>{{ ant_laborale.riesgo  ? ant_laborale.riesgo|json_encode : '' }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+     <table id="example" style="width:100%" class="content-table table-sm">
+     <h6> Accidentes de trabajo y Enfermedades Profesionales </h6>
+        <thead>
+            <tr>
+                    <th>Accidente Laboral</th>
+                     <th>Descripción Accidente Laboral</th>
+                     <th>Fecha Accidente</th>
+                       <th>Observaciones</th>
+                       <th>Enfermedad Laboral</th>
+                       <th>Descripción de Enfermedad</th>
+                         <th>Fecha de Enfermedad Laboral</th>
+                          <th>Observaciones</th>
+                            <th>Actividades Extra</th>
+        
+            </tr>
+        </thead>
+        <tbody id="articles6">
+        {% for ant_laborale in antl %}
+            <tr>
+                     <td>{{ ant_laborale.ac_trabajo }}</td>
+                     <td>{{ ant_laborale.descripcion_accidentes }}</td>
+                      <td>{{ ant_laborale.fecha_accidente ?  ant_laborale.fecha_accidente|date('Y-m-d') : '' }}</td>
+                      <td>{{ ant_laborale.observaciones }}</td>
+                     <td>{{ ant_laborale.enferemedad }}</td>
+                     <td>{{ ant_laborale.descripcion_emfermedad }}</td>
+                      <td>{{ ant_laborale.fecha_enfermedad ? ant_laborale.fecha_enfermedad|date('Y-m-d') : '' }}</td>
+                       <td>{{ ant_laborale.ob_enfermedades}}</td>
+                          <td>{{ ant_laborale.act_extra}}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+<h5 class="text-primary">ENFERMEDAD ACTUAL</h5>
+
+ <table  id="example" style="width:100%" class="content-table table-sm">
+        <thead>
+            <tr>
+                <th>Enfermedad Actual</th>
+            </tr>
+        </thead>
+        <tbody id="articles">
+        {% for ant_patologico in antp %}
+            <tr>
+                <td>{{ ant_patologico.enfermedad_actual }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="15">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <h5 class="text-primary">CONSTANTES VITALES Y ANTROPOMETRÍA</h5>
+  <table class="table table-striped">
+       <tbody>  
+       <tr>
+        <th>Estatura </th>
+
+          <td>
+            {% if  consulta.signosvitales.estatura is defined and consulta.signosvitales.estatura is null  %}
+            {% elseif consulta.signosvitales.estatura  is defined and consulta.signosvitales.estatura is not null  %}
+            {{ consulta.signosvitales.estatura}} Cm
+          </td> 
+            {% endif %}
+      </tr>
+
+      <tr>
+        <th>Peso </th>
+          
+          <td>
+            {% if  consulta.signosvitales.peso is defined and  consulta.signosvitales.peso is null  %}
+            {% elseif  consulta.signosvitales.peso is defined and  consulta.signosvitales.peso is not null  %}
+            {{ consulta.signosvitales.peso}} Kg
+          </td>
+            {% endif %}
+      </tr>
+            {% if  consulta.signosvitales.peso is defined and  consulta.signosvitales.peso is null  %}
+            {% elseif  consulta.signosvitales.peso is defined and  consulta.signosvitales.peso is not null  %}
+            {% set masacorporal = 0 %}
+            {% set masacorporal = ((consulta.signosvitales.peso)/(consulta.signosvitales.estatura **2))*10000 %}
+              
+      <tr>
+        <th>Masa Corporal</th>
+            
+          <td>
+            {{ masacorporal |number_format(2)}}  
+            {% if masacorporal  <= 18.5  and  masacorporal is not null %}
+              ->Bajo peso
+            {% elseif masacorporal >= 18.6  and  masacorporal <= 24.9 %}
+              ->Normal
+            {% elseif masacorporal >= 25  and  masacorporal <= 29.9 %}
+              ->Sobrepeso
+            {% elseif masacorporal >= 30 %}
+              ->Obesidad
+            {% endif %}
+
+         {% endif %}
+          </td>
+      </tr>
+      <tr>
+                 <th>Temperatura Grados</th>
+                <td>{{ consulta.signosvitales.temperatura}} 
+                   {% if consulta.signosvitales.temperatura >= 37 %}
+                     ->Fiebre
+                  {% elseif consulta.signosvitales.temperatura < 36  and  consulta.signosvitales.grasacorporal is not null %}
+                    ->Hipotermia
+                    {% elseif consulta.signosvitales.temperatura >= 36 %}
+                    ->Normal
+                  {% endif %}
+                </td>
+                </tr>
+                <tr>
+                
+                 <th>Frecuencia Respiratoria Por Minuto</th>
+                <td>{{ consulta.signosvitales.frecuenciarespiratoria}}
+                {% if consulta.signosvitales.frecuenciarespiratoria >= 12 and consulta.signosvitales.frecuenciarespiratoria <= 20 %}
+                     ->Normal
+                  {% elseif consulta.signosvitales.frecuenciarespiratoria >= 20 %}
+                     ->Taquinea
+                  {% elseif consulta.signosvitales.frecuenciarespiratoria <= 12  and  consulta.signosvitales.grasacorporal is not null %}
+                    ->Bradipnea
+                {% endif %}
+                </td>
+                </tr>
+                <tr>
+                 <th>Sistole</th>
+                   <td>
+                   {{consulta.signosvitales.sistole}}
+                    {% if consulta.signosvitales.sistole >= 90  and consulta.signosvitales.sistole <= 120 %}
+                    ->Normal
+                     {% elseif consulta.signosvitales.sistole  >= 121   and consulta.signosvitales.sistole <= 139 %}
+                     ->PHTA
+                     {% elseif consulta.signosvitales.sistole  >= 140   %}
+                     ->HTA
+                {% endif %}
+                </td>
+                    
+
+                </tr>
+                <tr>
+                 <th>Diastole</th>
+                  <td> 
+                  {{ consulta.signosvitales.diastole}}
+                  {% if consulta.signosvitales.diastole >= 60  and consulta.signosvitales.diastole <= 80 %}
+                     Normal
+                     {% elseif consulta.signosvitales.diastole  >= 81   and consulta.signosvitales.diastole <= 89 %}
+                     ->PHTA
+                       {% elseif consulta.signosvitales.diastole  >= 90   %}
+                       ->HTA
+                   {% endif %}
+               </td>
+                </tr>
+                <tr>
+                 <th>Frecuencia Cardiaca</th>
+                <td>{{ consulta.signosvitales.frecuenciacardiaca}}
+                   {% if consulta.signosvitales.frecuenciacardiaca >= 100 %}
+                    ->Taquicardia
+                  {% elseif consulta.signosvitales.frecuenciacardiaca <= 60   and  consulta.signosvitales.frecuenciacardiaca is not null %}
+                    ->Bradicardia
+                    {% elseif consulta.signosvitales.frecuenciacardiaca > 60 and consulta.signosvitales.frecuenciacardiaca < 100 %}
+                    ->Normal
+                  {% endif %}
+                </td>
+                </tr>
+
+                <tr>
+                 <th>Saturación de Oxígeno</th>
+                <td> 
+                 {{ consulta.signosvitales.saturacionoxigeno}}
+                 {% if  consulta.signosvitales.saturacionoxigeno  >= 95 and  consulta.signosvitales.saturacionoxigeno <= 100  %}
+                 ->Normal
+                {% elseif  consulta.signosvitales.saturacionoxigeno  > 90 and  consulta.signosvitales.saturacionoxigeno <= 94  %}
+                ->Hipoxemia leve
+                {% elseif  consulta.signosvitales.saturacionoxigeno  <= 90  and  consulta.signosvitales.grasacorporal is not null  %}
+                 ->Hipoxemia severa
+                  {% endif %}
+                </td>
+                </tr>
+         </tbody> 
+
+ </table>
+
+
+<h5 class="text-primary">EXAMEN FÍSICO REGIONAL</h5>
+<table id="example" style="width:100%" class="content-table table-lg">
+        <thead>
+            <tr>
+            
+                <th>Piel</th>
+                <th>Ojos</th>
+                <th>Oido</th>
+                <th>Oro farinje</th>
+                <th>Nariz</th>
+                <th>Cuello</th>
+                <th>Torax</th>
+                <th>Abdomen</th>
+                <th>Columna</th>
+                <th>Pelvis</th>
+                <th>Extremidades</th>
+                <th>Neurológico</th>
+                <th>Observaciones</th>
+            </tr>
+        </thead>
+        <tbody id="articles5" >
+        {% for examen_fisico in examen_fisicos %}
+            <tr>
+                <td>{{ examen_fisico.piel ? examen_fisico.piel|json_encode : '' }}</td>
+                <td>{{ examen_fisico.ojos ? examen_fisico.ojos|json_encode : '' }}</td>
+                <td>{{ examen_fisico.oido ? examen_fisico.oido|json_encode : '' }}</td>
+                <td>{{ examen_fisico.oro_farinje ? examen_fisico.oro_farinje|json_encode : '' }}</td>
+                <td>{{ examen_fisico.nariz ? examen_fisico.nariz|json_encode : '' }}</td>
+                <td>{{ examen_fisico.cuello ? examen_fisico.cuello|json_encode : '' }}</td>
+                <td>{{ examen_fisico.torax1 ? examen_fisico.torax1|json_encode : ''}}</td>
+                <td>{{ examen_fisico.abdomen ? examen_fisico.abdomen|json_encode : ''}}</td>
+                <td>{{ examen_fisico.columna ? examen_fisico.piel|json_encode : '' }}</td>
+                <td>{{ examen_fisico.pelvis ? examen_fisico.pelvis|json_encode : '' }}</td>
+                <td>{{ examen_fisico.extremidades ? examen_fisico.extremidades|json_encode : '' }}</td>
+                <td>{{ examen_fisico.neurologico ? examen_fisico.neurologico|json_encode : '' }}</td>
+                <td>{{ examen_fisico.observaciones }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="16">No existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+ <h5 class="text-primary">OTROS ANTECEDENTES</h5>
+
+    <table  id="example" style="width:100%" class="content-table table-sm">
+        <thead>
+            <tr>
+            
+                <th>Alergias</th>
+                 <th>Vacunas</th>
+                  <th>N-Dosis</th>
+                <th>Fecha Vacunación</th>
+            </tr>
+        </thead>
+        <tbody id="articles">
+        {% for otros_antecedentes in anto %}
+            <tr>
+               
+                <td>{{ otros_antecedentes.alergias }}</td>
+                 <td>{{ otros_antecedentes.vacuna }}</td>
+                  <td>{{ otros_antecedentes.Dosis }}</td>
+                   <td>{{ otros_antecedentes.fecha_vacuna  ? otros_antecedentes.fecha_vacuna|date('Y-m-d') : ''}}</td>
+               
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+       <h5 class="text-primary">RESULTADOS DE EXÁMENES GENERALES Y ESPECÍFICOS DE ACUERDO AL RIESGO Y PUESTO DE TRABAJO</h5>
+    <table class="content-table table-sm" style="width:100%">
+        <thead>
+            <tr>
+                <th>Nombre examen</th>
+                <th>Fecha examen</th>
+                <th>Resultado examen</th>
+                <th>Observaciones</th>
+            </tr>
+        </thead>
+        <tbody id="articles5">
+        {% for examene in examenes %}
+            <tr>
+              
+                <td>{{ examene.nombre_examen }}</td>
+                <td>{{ examene.fecha_examen ? examene.fecha_examen|date('Y-m-d') : '' }}</td>
+                <td>{{ examene.resultado_examen }}</td>
+                <td>{{ examene.Observaciones}}</td>
+               
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+ 
+   <h5 class="text-primary">DIAGNÓSTICOS</h5>
+    <table  id="dgo" style="width:100%" class="content-table table-sm">
+        <thead>
+            <tr>
+                  <th>Enfermedad</th>
+                  <th>Medicamento</th>
+                  <th>Presentación</th>
+                  <th>Dosis</th>
+                  <th>Cantidad</th>
+                  <th>Frecuencia</th>
+                  <th>Duración</th>
+                  <th>Indicaciones</th>
+            </tr>
+                 
+            </tr>
+        </thead>
+        <tbody id="articles">
+        {% for diagnostico in diagnosticos %}
+            <tr>
+                <td>Diagnóstico CIE: {{ diagnostico.descripcion }} </br> Grupo CIE: {{ diagnostico.tipo }} </br> Tipo de Diagnóstico: {{ diagnostico.tipo_diagnostico}}</td>
+                <td>{{ diagnostico.medicamento}}</td>
+                <td>{{ diagnostico.presentacion}}</td>
+                <td>{{ diagnostico.dosis}}</td>
+                <td>{{ diagnostico.cantidad}}</td>
+                <td>{{ diagnostico.frecuencia}}</td>
+                <td>{{ diagnostico.duracion}}</td>
+                 <td>{{ diagnostico.indicaciones}}</td>
+              
+                     
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+
+
+</br>
+</br>
+
+<h5 class="text-primary">EXÁMENES</h5>
+<h6 class="text-primary">EXÁMENES DE LABORATORIO</h6>
+   <table  id="example2" style="width:100%" class="content-table table-sm">
+        <thead>
+            <tr>
+                  <th>Registros</th> 
+                   <th>Exámenes de laboratorio</th> 
+            </tr>
+        </thead>
+        <tbody>
+     
+       {% for diagnostico in diagnosticos|filter(diagnostico => diagnostico.solicitud  != null) %}
+
+            <tr>
+                
+                <td class="transformacion2">Diagnóstico CIE: {{diagnostico.codigo|upper}}-{{ diagnostico.descripcion|upper}} </br> Examen de Laboratorio: {{ diagnostico.solicitud|upper}}</td>
+                <td> </td>
+              
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+<h6 class="text-primary">EXÁMENES COMPLEMEMTARIOS</h6>
+       <table  id="example3" style="width:100%" class="content-table table-sm">
+        <thead>
+            <tr>
+                  <th>Registros</th> 
+                   <th>Exámenes Complementarios</th> 
+            </tr>
+        </thead>
+        <tbody>
+     
+       {% for diagnostico in diagnosticos|filter(diagnostico => diagnostico.solicitud_complementaria  != null) %}
+
+            <tr>
+                
+                <td>Diagnóstico CIE: {{diagnostico.codigo|upper}}-{{ diagnostico.descripcion|upper }} </br> Examen Complementarios: <b>{{ diagnostico.solicitud_complementaria|upper}}</b> </td>
+                <td> </td>
+              
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+<h6 class="text-primary">FISIOTERAPIA</h6>
+        <table  id="example4" style="width:100%" class="content-table table-sm">
+        <thead>
+            <tr>
+                  <th>Registros</th> 
+                   <th>Pedidos de Fisioterapia</th> 
+            </tr>
+        </thead>
+        <tbody>
+     
+       {% for diagnostico in diagnosticos|filter(diagnostico => diagnostico.procedimiento   != null) %}
+
+            <tr>
+                
+                <td>Diagnóstico CIE: {{diagnostico.codigo|upper}}-{{ diagnostico.descripcion|upper }} </br> Pedido de Fisioterapia: <b>{{ diagnostico.procedimiento|upper}}</b> </td>
+                <td> </td>
+              
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+<h6 class="text-primary">INTERCONSULTA</h6>
+
+       <table  id="example5" style="width:100%" class="content-table table-sm">
+        <thead>
+            <tr>
+                  <th>Registros</th> 
+                   <th>Pedidos de Interconsulta</th> 
+            </tr>
+        </thead>
+        <tbody>
+     
+       {% for diagnostico in diagnosticos|filter(diagnostico => diagnostico.interconsulta   != null) %}
+
+            <tr>
+                
+                <td>Diagnóstico CIE: {{diagnostico.codigo|upper}}-{{ diagnostico.descripcion|upper}} </br> Pedido de Interconsulta: <b>{{ diagnostico.interconsulta|upper}}</b> </td>
+                <td> </td>
+              
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+
+<h5 class="text-primary">APTITUD MÉDICA PARA EL TRABAJO</h5>   
+<table class="content-table table-sm" style="width:100%">
+  <thead>
+    <tr>
+      <th scope="col">Aptitud</th>
+      <th scope="col">Observaciones</th>
+      <th scope="col">Recomendaciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+   <td>{{ consulta.tipoaptitud}}</td>
+      <td>{{ consulta.observaciones}}</td>
+         <td>{{ consulta.limitaciones}}</td>
+    </tr>
+  </tbody>
+</table>
+
+ {% endif %}
+
+
+  {% if consulta.motivoconsulta == var4 %}
+
+<h5 class="text-primary">ENFERMEDAD ACTUAL</h5>
+
+ <table  id="example" style="width:100%" class="content-table table-sm">
+        <thead>
+            <tr>
+                <th>Enfermedad Actual</th>
+            </tr>
+        </thead>
+        <tbody id="articles">
+        {% for ant_patologico in antp %}
+            <tr>
+                <td>{{ ant_patologico.enfermedad_actual }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="15">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+<h5 class="text-primary">CONSTANTES VITALES Y ANTROPOMETRÍA</h5>
+  <table class="table table-striped">
+       <tbody>  
+       <tr>
+        <th>Estatura </th>
+
+          <td>
+            {% if  consulta.signosvitales.estatura is defined and consulta.signosvitales.estatura is null  %}
+            {% elseif consulta.signosvitales.estatura  is defined and consulta.signosvitales.estatura is not null  %}
+            {{ consulta.signosvitales.estatura}} Cm
+          </td> 
+            {% endif %}
+      </tr>
+
+      <tr>
+        <th>Peso </th>
+          
+          <td>
+            {% if  consulta.signosvitales.peso is defined and  consulta.signosvitales.peso is null  %}
+            {% elseif  consulta.signosvitales.peso is defined and  consulta.signosvitales.peso is not null  %}
+            {{ consulta.signosvitales.peso}} Kg
+          </td>
+            {% endif %}
+      </tr>
+            {% if  consulta.signosvitales.peso is defined and  consulta.signosvitales.peso is null  %}
+            {% elseif  consulta.signosvitales.peso is defined and  consulta.signosvitales.peso is not null  %}
+            {% set masacorporal = 0 %}
+            {% set masacorporal = ((consulta.signosvitales.peso)/(consulta.signosvitales.estatura **2))*10000 %}
+              
+      <tr>
+        <th>Masa Corporal</th>
+            
+          <td>
+            {{ masacorporal |number_format(2)}}  
+            {% if masacorporal  <= 18.5  and  masacorporal is not null %}
+              ->Bajo peso
+            {% elseif masacorporal >= 18.6  and  masacorporal <= 24.9 %}
+              ->Normal
+            {% elseif masacorporal >= 25  and  masacorporal <= 29.9 %}
+              ->Sobrepeso
+            {% elseif masacorporal >= 30 %}
+              ->Obesidad
+            {% endif %}
+
+         {% endif %}
+          </td>
+      </tr>
+      <tr>
+                 <th>Temperatura Grados</th>
+                <td>{{ consulta.signosvitales.temperatura}} 
+                   {% if consulta.signosvitales.temperatura >= 37 %}
+                     ->Fiebre
+                  {% elseif consulta.signosvitales.temperatura < 36  and  consulta.signosvitales.grasacorporal is not null %}
+                    ->Hipotermia
+                    {% elseif consulta.signosvitales.temperatura >= 36 %}
+                    ->Normal
+                  {% endif %}
+                </td>
+                </tr>
+                <tr>
+                
+                 <th>Frecuencia Respiratoria Por Minuto</th>
+                <td>{{ consulta.signosvitales.frecuenciarespiratoria}}
+                {% if consulta.signosvitales.frecuenciarespiratoria >= 12 and consulta.signosvitales.frecuenciarespiratoria <= 20 %}
+                     ->Normal
+                  {% elseif consulta.signosvitales.frecuenciarespiratoria >= 20 %}
+                     ->Taquinea
+                  {% elseif consulta.signosvitales.frecuenciarespiratoria <= 12  and  consulta.signosvitales.grasacorporal is not null %}
+                    ->Bradipnea
+                {% endif %}
+                </td>
+                </tr>
+                <tr>
+                 <th>Sistole</th>
+                   <td>
+                   {{consulta.signosvitales.sistole}}
+                    {% if consulta.signosvitales.sistole >= 90  and consulta.signosvitales.sistole <= 120 %}
+                    ->Normal
+                     {% elseif consulta.signosvitales.sistole  >= 121   and consulta.signosvitales.sistole <= 139 %}
+                     ->PHTA
+                     {% elseif consulta.signosvitales.sistole  >= 140   %}
+                     ->HTA
+                {% endif %}
+                </td>
+                    
+
+                </tr>
+                <tr>
+                 <th>Diastole</th>
+                  <td> 
+                  {{ consulta.signosvitales.diastole}}
+                  {% if consulta.signosvitales.diastole >= 60  and consulta.signosvitales.diastole <= 80 %}
+                     Normal
+                     {% elseif consulta.signosvitales.diastole  >= 81   and consulta.signosvitales.diastole <= 89 %}
+                     ->PHTA
+                       {% elseif consulta.signosvitales.diastole  >= 90   %}
+                       ->HTA
+                   {% endif %}
+               </td>
+                </tr>
+                <tr>
+                 <th>Frecuencia Cardiaca</th>
+                <td>{{ consulta.signosvitales.frecuenciacardiaca}}
+                   {% if consulta.signosvitales.frecuenciacardiaca >= 100 %}
+                    ->Taquicardia
+                  {% elseif consulta.signosvitales.frecuenciacardiaca <= 60   and  consulta.signosvitales.frecuenciacardiaca is not null %}
+                    ->Bradicardia
+                    {% elseif consulta.signosvitales.frecuenciacardiaca > 60 and consulta.signosvitales.frecuenciacardiaca < 100 %}
+                    ->Normal
+                  {% endif %}
+                </td>
+                </tr>
+
+		<tr>
+                 <th>Saturación de Oxígeno</th>
+                <td> 
+                 {{ consulta.signosvitales.saturacionoxigeno}}
+                 {% if  consulta.signosvitales.saturacionoxigeno  >= 95 and  consulta.signosvitales.saturacionoxigeno <= 100  %}
+                 ->Normal
+                {% elseif  consulta.signosvitales.saturacionoxigeno  > 90 and  consulta.signosvitales.saturacionoxigeno <= 94  %}
+                ->Hipoxemia leve
+                {% elseif  consulta.signosvitales.saturacionoxigeno  <= 90  and  consulta.signosvitales.grasacorporal is not null  %}
+                 ->Hipoxemia severa
+                  {% endif %}
+                </td>
+                </tr>
+         </tbody> 
+
+ </table>
+
+
+<h5 class="text-primary">EXAMEN FÍSICO REGIONAL</h5>
+<table id="example" style="width:100%" class="content-table table-lg">
+        <thead>
+            <tr>
+            
+                <th>Piel</th>
+                <th>Ojos</th>
+                <th>Oido</th>
+                <th>Oro farinje</th>
+                <th>Nariz</th>
+                <th>Cuello</th>
+                <th>Torax</th>
+                <th>Abdomen</th>
+                <th>Columna</th>
+                <th>Pelvis</th>
+                <th>Extremidades</th>
+                <th>Neurologico</th>
+                <th>Observaciones</th>
+            </tr>
+        </thead>
+        <tbody id="articles5" >
+        {% for examen_fisico in examen_fisicos %}
+            <tr>
+                <td>{{ examen_fisico.piel ? examen_fisico.piel|json_encode : '' }}</td>
+                <td>{{ examen_fisico.ojos ? examen_fisico.ojos|json_encode : '' }}</td>
+                <td>{{ examen_fisico.oido ? examen_fisico.oido|json_encode : '' }}</td>
+                <td>{{ examen_fisico.oro_farinje ? examen_fisico.oro_farinje|json_encode : '' }}</td>
+                <td>{{ examen_fisico.nariz ? examen_fisico.nariz|json_encode : '' }}</td>
+                <td>{{ examen_fisico.cuello ? examen_fisico.cuello|json_encode : '' }}</td>
+                <td>{{ examen_fisico.torax1 ? examen_fisico.torax1|json_encode : ''}}</td>
+                <td>{{ examen_fisico.abdomen ? examen_fisico.abdomen|json_encode : ''}}</td>
+                <td>{{ examen_fisico.columna ? examen_fisico.piel|json_encode : '' }}</td>
+                <td>{{ examen_fisico.pelvis ? examen_fisico.pelvis|json_encode : '' }}</td>
+                <td>{{ examen_fisico.extremidades ? examen_fisico.extremidades|json_encode : '' }}</td>
+                <td>{{ examen_fisico.neurologico ? examen_fisico.neurologico|json_encode : '' }}</td>
+                <td>{{ examen_fisico.observaciones }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="16">No existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+ <h5 class="text-primary">OTROS ANTECEDENTES</h5>
+
+    <table  id="example" style="width:100%" class="content-table table-sm">
+        <thead>
+            <tr>
+            
+                <th>Alergias</th>
+                 <th>Vacunas</th>
+                  <th>N-Dosis</th>
+                <th>Fecha Vacunación</th>
+            </tr>
+        </thead>
+        <tbody id="articles">
+        {% for otros_antecedentes in anto %}
+            <tr>
+               
+                <td>{{ otros_antecedentes.alergias }}</td>
+                 <td>{{ otros_antecedentes.vacuna }}</td>
+                  <td>{{ otros_antecedentes.Dosis }}</td>
+                   <td>{{ otros_antecedentes.fecha_vacuna  ? otros_antecedentes.fecha_vacuna|date('Y-m-d') : ''}}</td>
+               
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+       <h5 class="text-primary">RESULTADO DE EXÁMENES GENERALES Y ESPECÍFICOS DE ACUERDO AL RIESGO Y PUESTO DE TRABAJO</h5>
+    <table class="content-table table-sm" style="width:100%">
+        <thead>
+            <tr>
+                <th>Nombre examen</th>
+                <th>Fecha examen</th>
+                <th>Resultado examen</th>
+                <th>Observaciones</th>
+            </tr>
+        </thead>
+        <tbody id="articles5">
+        {% for examene in examenes %}
+            <tr>
+              
+                <td>{{ examene.nombre_examen }}</td>
+                <td>{{ examene.fecha_examen ? examene.fecha_examen|date('Y-m-d') : '' }}</td>
+                <td>{{ examene.resultado_examen }}</td>
+                <td>{{ examene.Observaciones}}</td>
+               
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+ 
+   <h5 class="text-primary">DIAGNÓSTICOS</h5>
+    <table  id="dgo" style="width:100%" class="content-table table-sm">
+        <thead>
+            <tr>
+                  <th>Enfermedad</th>
+                  <th>Medicamento</th>
+                  <th>Presentación</th>
+                  <th>Dosis</th>
+                  <th>Cantidad</th>
+                  <th>Frecuencia</th>
+                  <th>Duración</th>
+                  <th>Indicaciones</th>
+            </tr>
+                 
+            </tr>
+        </thead>
+        <tbody id="articles">
+        {% for diagnostico in diagnosticos %}
+            <tr>
+                <td>Diagnóstico CIE: {{ diagnostico.descripcion }} </br> Grupo CIE: {{ diagnostico.tipo }} </br> Tipo de Diagnóstico: {{ diagnostico.tipo_diagnostico}}</td>
+                <td>{{ diagnostico.medicamento}}</td>
+                <td>{{ diagnostico.presentacion}}</td>
+                <td>{{ diagnostico.dosis}}</td>
+                <td>{{ diagnostico.cantidad}}</td>
+                <td>{{ diagnostico.frecuencia}}</td>
+                <td>{{ diagnostico.duracion}}</td>
+                 <td>{{ diagnostico.indicaciones}}</td>
+              
+                     
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">No Existen Registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+
+
+</br>
+</br>
+
+<h5 class="text-primary">EXÁMENES</h5>
+<h6 class="text-primary">EXÁMENES DE LABORATORIO</h6>
+   <table  id="example2" style="width:100%" class="content-table table-sm">
+        <thead>
+            <tr>
+                  <th>Registros</th> 
+                   <th>Exámenes de laboratorio</th> 
+            </tr>
+        </thead>
+        <tbody>
+     
+       {% for diagnostico in diagnosticos|filter(diagnostico => diagnostico.solicitud   != null) %}
+
+            <tr>
+                
+                <td class="transformacion2">Diagnóstico CIE: {{diagnostico.codigo|upper}}-{{ diagnostico.descripcion|upper}} </br> Examen de Laboratorio: {{ diagnostico.solicitud|upper}}</td>
+                <td> </td>
+              
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+<h6 class="text-primary">EXÁMENES COMPLEMEMTARIOS</h6>
+       <table  id="example3" style="width:100%" class="content-table table-sm">
+        <thead>
+            <tr>
+                  <th>Registros</th> 
+                   <th>Exámenes Complementarios</th> 
+            </tr>
+        </thead>
+        <tbody>
+     
+       {% for diagnostico in diagnosticos|filter(diagnostico => diagnostico.solicitud_complementaria  != null) %}
+
+            <tr>
+                
+                <td>Diagnóstico CIE: {{diagnostico.codigo|upper}}-{{ diagnostico.descripcion|upper }} </br> Examen Complementarios: <b>{{ diagnostico.solicitud_complementaria|upper}}</b> </td>
+                <td> </td>
+              
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+<h6 class="text-primary">FISIOTERAPIA</h6>
+        <table  id="example4" style="width:100%" class="content-table table-sm">
+        <thead>
+            <tr>
+                  <th>Registros</th> 
+                   <th>Pedidos de Fisioterapia</th> 
+            </tr>
+        </thead>
+        <tbody>
+     
+       {% for diagnostico in diagnosticos|filter(diagnostico => diagnostico.procedimiento   != null) %}
+
+            <tr>
+                
+                <td>Diagnóstico CIE: {{diagnostico.codigo|upper}}-{{ diagnostico.descripcion|upper }} </br> Pedido de Fisioterapia: <b>{{ diagnostico.procedimiento|upper}}</b> </td>
+                <td> </td>
+              
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+<h6 class="text-primary">INTERCONSULTA</h6>
+
+       <table  id="example5" style="width:100%" class="content-table table-sm">
+        <thead>
+            <tr>
+                  <th>Registros</th> 
+                   <th>Pedidos de Interconsulta</th> 
+            </tr>
+        </thead>
+        <tbody>
+     
+       {% for diagnostico in diagnosticos|filter(diagnostico => diagnostico.interconsulta  != null) %}
+
+            <tr>
+                
+                <td>Diagnóstico CIE: {{diagnostico.codigo|upper}}-{{ diagnostico.descripcion|upper}} </br> Pedido de Interconsulta: <b>{{ diagnostico.interconsulta|upper}}</b> </td>
+                <td> </td>
+              
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+
+<h5 class="text-primary">APTITUD MÉDICA PARA EL TRABAJO</h5>   
+<table class="content-table table-sm" style="width:100%">
+  <thead>
+    <tr>
+      <th scope="col">Aptitud</th>
+      <th scope="col">Observaciones</th>
+      <th scope="col">Recomendaciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+   <td>{{ consulta.tipoaptitud}}</td>
+      <td>{{ consulta.observaciones}}</td>
+         <td>{{ consulta.limitaciones}}</td>
+    </tr>
+  </tbody>
+</table>
+ {% endif %}
+ <h5 class="text-primary">DATOS DEL PROFESIONAL</h5>
+ <h5>Dr/Dra: <b>{{consulta.employed.Nombre}}  {{consulta.employed.Apellido}} </b>  Fecha: <b>{{ consulta.fechaAtencion ? consulta.fechaAtencion|date('Y-m-d H:i:s') : '' }}</b></h5>
+ </br>
+ </br>
+ </br>
+ </br>
+ </br>
+    <div class="row vh-30 justify-content-around align-items-center">
+            <h6 class="text-center">Dr/Dra: <b>{{consulta.employed.Nombre }} {{consulta.employed.Apellido }}</b></h6>
+            <h6 class="text-center">_______________________</h6> 
+
+            <h6 class="text-center">Paciente: <b>{{paciente.pnombre}} {{paciente.snombre}} {{paciente.papellido}} {{paciente.sapellido}}</b></h6>
+            <h6 class="text-center">_______________________</h6>
+        </div>
+
+</div>
+{% endblock %}
+
+
+{% block javascripts %}
+ 
+
+ <script>
+  $(document).ready(function(){
+
+       $("#print_Button_Full").click(function(){
+          var mode = 'iframe'; // popup
+          var close = mode == "popup";
+          var options = { mode : mode, popClose : close};
+          $("div.content").printArea( options );
+      });
+
+          $('#dgo').DataTable( {
+
+                language: {
+            url: 'https://cdn.datatables.net/plug-ins/1.10.22/i18n/Spanish.json'
+        },
+
+        "columnDefs": [{"targets": [0], "visible": false, }, ],
+
+           rowGroup: {
+            dataSrc: [0]
+        },
+
+        "searching": false,
+        "paging":   false,
+        "ordering": false,
+        "info":     false
+
+  } );
+  });
+
+</script>
+
+    <script> 
+       $(document).ready(function() {
+
+        $('#example2').DataTable( {
+
+                language: {
+            url: 'https://cdn.datatables.net/plug-ins/1.10.22/i18n/Spanish.json'
+        },
+
+        "columnDefs": [{"targets": [0], "visible": false, }, ],
+        "order": [[0, '']],
+        
+           rowGroup: {
+            dataSrc: [0]
+        },
+
+             "searching": false,
+        "paging":   false,
+        "ordering": false,
+        "info":     false
+
+      
+
+  } );
+    } );
+
+  
+ </script>
+
+
+ 
+    <script> 
+       $(document).ready(function() {
+
+        $('#example3').DataTable( {
+
+                language: {
+            url: 'https://cdn.datatables.net/plug-ins/1.10.22/i18n/Spanish.json'
+        },
+
+        "columnDefs": [{"targets": [0], "visible": false, }, ],
+
+           rowGroup: {
+            dataSrc: [0]
+        },
+
+
+             "searching": false,
+        "paging":   false,
+        "ordering": false,
+        "info":     false
+
+     
+
+  } );
+    } );
+
+  
+ </script>
+
+ 
+    <script> 
+       $(document).ready(function() {
+
+        $('#example4').DataTable( {
+
+                language: {
+            url: 'https://cdn.datatables.net/plug-ins/1.10.22/i18n/Spanish.json'
+        },
+
+        "columnDefs": [{"targets": [0], "visible": false, }, ],
+
+           rowGroup: {
+            dataSrc: [0]
+        },
+
+        "searching": false,
+        "paging":   false,
+        "ordering": false,
+        "info":     false
+
+  
+          
+
+
+  } );
+    } );
+
+  
+ </script>
+
+
+  <script> 
+       $(document).ready(function() {
+
+        $('#example5').DataTable( {
+
+                language: {
+            url: 'https://cdn.datatables.net/plug-ins/1.10.22/i18n/Spanish.json'
+        },
+
+        "columnDefs": [{"targets": [0], "visible": false, }, ],
+
+           rowGroup: {
+            dataSrc: [0]
+        },
+
+
+        "searching": false,
+        "paging":   false,
+        "ordering": false,
+        "info":     false
+
+   
+          
+    
+
+  } );
+    } );
+
+  
+ </script>
+
+
+
+
+
+   {% endblock %}
+
+
+

@@ -1,0 +1,73 @@
+
+
+{% block title %}{% endblock %}
+
+
+{% block header %}
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/x-icon" href="image/favicon.png">
+
+<script type = 'text/javascript' async src ="https://www.google-analytics.com/analytics.js"> </script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151780690-13"> </script>
+
+<script>    
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+</script>
+
+
+<link rel="stylesheet" href="{{ asset('css/login.css') }}">
+<link rel="stylesheet" href="{{ asset('css/estilo2.css') }}">
+<link rel="stylesheet" href="{{ asset('css/adminlte.css') }}">
+
+
+{% endblock %}
+    {% block body %}
+<div _ngcontent-c2 class="login-body">
+    
+<div _ngcontent-c2 class="wrapper-login">
+
+    <div _ngcontent-c2 class="elemnt">
+     <center>
+        <img src="image/Recursos_Login.jpg" height="100%" width="100%">
+    </center>
+    </div>
+
+    <div _ngcontent-c2 class="elemnt1">
+    <center>
+        <img src="image/Recursos_Inicio 2.jpg" height="100%" width="100%">
+    </center>
+    </div>
+
+<div _ngcontent-c2 class="login-panel">
+<div _ngcontent-c2 class="login-content">
+    <img _ngcontent-c2 alt="logo" src="image/Recursos_Logo Espoir.png">
+        <h1 _ngcontent-c2 class="tituloAplicacion">
+        <span _ngcontent-c2>Reseteo de Contraseña</span>
+    </h1>
+
+  <form  class="ng-touched ng-pristine ng-invalid"
+    {% for message in app.flashes('danger') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+     {{ form_start(form) }}
+            {{ form_widget(form.username, { 'attr': {'class': 'form-control' ,'placeholder': 'Escriba su Cédula'} }) }}</br>
+            {{ form_widget(form.plainPassword.first, { 'attr': {'class': 'form-control','placeholder': 'Escriba nueva contraseña'} }) }}</br>
+            {{ form_widget(form.plainPassword.second, { 'attr': {'class': 'form-control','placeholder': 'Repita la contraseña'} }) }}
+
+            <div class="register-btn-container">
+                <a href="{{ path('app_login') }}" class="text-warning">Iniciar sesión</a>
+            </div>
+                <button class="btn btn-primary" type="submit">Actualizar contraseña!</button>
+            </div>
+        {{ form_end(form) }}
+
+ </form>       
+    {% endblock %}
