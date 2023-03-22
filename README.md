@@ -1,7 +1,7 @@
 # HC
 Sistema Medicina Ocupacional HC V1.2
-Funciones 
-*Inicio de Session 
+#Funciones 
+Inicio de Session 
 ![image](https://user-images.githubusercontent.com/86753747/227056082-b54b5a16-0fc2-4d67-9696-93a051ab095e.png)
 -Registro de pacientes
 ![image](https://user-images.githubusercontent.com/86753747/227056197-fbbb1da7-881c-4cc9-99bc-d4444ddf7703.png)
