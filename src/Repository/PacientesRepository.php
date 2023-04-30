@@ -234,7 +234,7 @@ return $q->getQuery()->getResult();
 
 
 
-public function paciennte_Diagnostico_full($id_user){
+public function paciennte_Diagnostico_full($id_user,$consulta,$fecha_consulta){
 
   
   $q= $this->getEntityManager()->createQueryBuilder();
@@ -248,7 +248,11 @@ public function paciennte_Diagnostico_full($id_user){
   ->innerJoin('App:cie','m',\Doctrine\ORM\Query\Expr\Join::WITH,'m=s.cie')
   ->leftJoin('App:medicamentos','v',\Doctrine\ORM\Query\Expr\Join::WITH,'v=t.medicamentos') 
   ->where('p.id=:user_id')
+  ->andWhere('c.id != :consulta_id')
+  ->andWhere('c.fecha_atencion < :fecha_consulta')
   ->setParameter('user_id',$id_user)
+  ->setParameter('consulta_id',$consulta)
+  ->setParameter('fecha_consulta',$fecha_consulta)
   ;
 
 return $q->getQuery()->getResult();
@@ -276,21 +280,7 @@ return $q->getQuery()->getResult();
 }
 
 
-public function paciennte_Diagnostico2_full($id_user){
 
-  
-  $q= $this->getEntityManager()->createQueryBuilder();
-  
-  $q->select('s.id','s.tipo_diagnostico','s.solicitud',
-  's.procedimiento','s.interconsulta','s.solicitud_complementaria','m.descripcion','m.tipo','m.codigo','c.motivo_consulta','c.fecha_atencion')
-  ->from('App:pacientes','p')
-  ->innerJoin('App:diagnostico','s',\Doctrine\ORM\Query\Expr\Join::WITH,'p=s.pacientes')
-  ->innerJoin('App:consulta','c',\Doctrine\ORM\Query\Expr\Join::WITH,'c=s.consulta')
-  ->innerJoin('App:cie','m',\Doctrine\ORM\Query\Expr\Join::WITH,'m=s.cie')
-  ->where('p.id=:user_id')
-  ->setParameter('user_id',$id_user);
-return $q->getQuery()->getResult();
-}
 
 
   

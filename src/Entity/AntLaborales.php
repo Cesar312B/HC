@@ -39,7 +39,7 @@ class AntLaborales
     private $actividades;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="float", nullable=true)
      */
     private $tiempo_trabajo;
 
@@ -99,6 +99,15 @@ class AntLaborales
      */
     private $consulta;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $creatdate;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedate;
 
 
     public function getId(): ?int
@@ -154,12 +163,12 @@ class AntLaborales
         return $this;
     }
 
-    public function getTiempoTrabajo(): ?int
+    public function getTiempoTrabajo(): ?float
     {
         return $this->tiempo_trabajo;
     }
 
-    public function setTiempoTrabajo(?int $tiempo_trabajo): self
+    public function setTiempoTrabajo(?float $tiempo_trabajo): self
     {
         $this->tiempo_trabajo = $tiempo_trabajo;
 
@@ -296,6 +305,30 @@ class AntLaborales
     public function setConsulta(?Consulta $consulta): self
     {
         $this->consulta = $consulta;
+
+        return $this;
+    }
+
+    public function getCreatdate(): ?\DateTimeInterface
+    {
+        return $this->creatdate;
+    }
+
+    public function setCreatdate(?\DateTimeInterface $creatdate): self
+    {
+        $this->creatdate = $creatdate;
+
+        return $this;
+    }
+
+    public function getUpdatedate(): ?\DateTimeInterface
+    {
+        return $this->updatedate;
+    }
+
+    public function setUpdatedate(?\DateTimeInterface $updatedate): self
+    {
+        $this->updatedate = $updatedate;
 
         return $this;
     }

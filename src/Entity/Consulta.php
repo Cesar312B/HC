@@ -183,9 +183,16 @@ class Consulta
       
     }
 
+   
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getDatos(): string
+    {
+        return $this->motivo_consulta . ' ' . $this->fecha_atencion;
     }
 
     public function getMotivoConsulta(): ?string

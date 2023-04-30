@@ -8,7 +8,9 @@
    {% set var = "Ingreso" %}  
       {% set var2 = "Periódica" %}  
       {% set var3 = "Salida" %}  
-       {% set var4 = "Reingreso" %}  
+       {% set var4 = "Reingreso" %} 
+        {% set s1 = "Mujer" %}  
+       {% set s2 = "Hombre" %}   
 <div class="card-body p-5 bg-white rounded">
 
 <h4>Crear nueva consulta para:
@@ -22,7 +24,11 @@
             <div class="card">
                 <div class="card-horizontal">
                     <div class="img-square-wrapper">
-                        <img class="mr-3  img-thumbnail shadow-sm" src="{{ asset('uploads/'~paciente.image) }}"  width="200" height="200" alt="Card image cap">
+                         {% if paciente.sexo == s2  %}
+                        <img class="mr-3  img-thumbnail shadow-sm" src="{{ asset('image/usuario.jpg') }}"  width="200" height="200" alt="Card image cap">
+                      {% elseif paciente.sexo == s1 %}
+                      <img class="mr-3  img-thumbnail shadow-sm" src="{{ asset('image/usuaria.jpg') }}"  width="200" height="200" alt="Card image cap">
+                      {% endif %}
                     </div>
                     <div class="card-body">
                         <h4 class="card-title">Cédula: {{ paciente.cedula }}</h4></br>
@@ -214,6 +220,11 @@
 
 
  <div class="p-5 bg-white rounded shadow mb-5">
+ {% for flash_message in app.session.flashbag.get('exito') %}
+<div class="alert alert-success" role="alert">
+       {{ flash_message }}
+</div>
+{% endfor %}
       {{ form_start(form) }} 
     <!-- Lined tabs-->
    
@@ -448,6 +459,7 @@
             url: 'https://cdn.datatables.net/plug-ins/1.10.22/i18n/Spanish.json'
         },
          'responsive': true,
+          order: [[4, 'desc']],
     });
 });
    

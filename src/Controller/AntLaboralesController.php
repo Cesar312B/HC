@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use DateTime;
 
 
 /**
@@ -41,7 +42,6 @@ class AntLaboralesController extends AbstractController
         $em= $this->getDoctrine()->getManager();
         $paciente= $em->getRepository(Pacientes::class)->find($id);
         $consulta= $em->getRepository(Consulta::class)->find($c);
-        $a= $antLaboralesRepository->findBy(['pacientes'=>$paciente,'consulta'=>$consulta]);
         $a2= $antLaboralesRepository->findBy(['pacientes'=>$paciente]);
         $antLaborale = new AntLaborales();
         $form = $this->createForm(AntLaboralesType::class, $antLaborale);
@@ -50,7 +50,7 @@ class AntLaboralesController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $antLaborale->setPacientes($paciente);
-            $antLaborale->setConsulta($consulta);
+            $antLaborale->setCreatdate(new DateTime());
             $entityManager->persist($antLaborale);
             $entityManager->flush();
             $this->addFlash('exito','Registro Guardado con Éxito');
@@ -60,7 +60,6 @@ class AntLaboralesController extends AbstractController
 
         return $this->render('ant_laborales/new.html.twig', [
             'consulta'=>$consulta,
-            'antecedentes'=>$a,
             'antecedentes2'=>$a2,
             'paciente'=>$paciente,
             'c'=>$consultaRepository->consulta_examene($consulta->getId()),
@@ -90,8 +89,11 @@ class AntLaboralesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $antLaborale->setUpdatedate(new DateTime());
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('exito','Registro Actualizado con éxito');
             return $this->redirect($request->getUri());
+
             
         }
 

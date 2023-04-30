@@ -7,6 +7,7 @@ use App\Entity\Diagnostico;
 use App\Entity\Pacientes;
 use App\Entity\Tratamiento;
 use App\Form\DiagnosticoEdit;
+use App\Form\DiagnosticoEdit2;
 use App\Form\DiagnosticoType;
 use App\Repository\ConsultaRepository;
 use App\Repository\DiagnosticoRepository;
@@ -42,10 +43,10 @@ class DiagnosticoController extends AbstractController
         $em= $this->getDoctrine()->getManager();
         $paciente= $em->getRepository(Pacientes::class)->find($id);
         $consulta= $em->getRepository(Consulta::class)->find($c);
+        $fecha_consulta = $consulta->getFechaAtencion();
         $a=$pacientesRepository->paciennte_Diagnostico($paciente->getId(),$consulta->getId());
-        $a2=$pacientesRepository->paciennte_Diagnostico_full($paciente->getId());
+        $a2=$pacientesRepository->paciennte_Diagnostico_full($paciente->getId(),$consulta->getId(),$fecha_consulta);
         $tr=$pacientesRepository->paciennte_Diagnostico2($paciente->getId(),$consulta->getId());
-        $tr2=$pacientesRepository->paciennte_Diagnostico2_full($paciente->getId());
         $form = $this->createForm(DiagnosticoType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -59,9 +60,9 @@ class DiagnosticoController extends AbstractController
             $diagnostico->setProcedimiento($data['procedimiento']);
             $diagnostico->setInterconsulta($data['interconsulta']);
             $diagnostico->setSolicitudComplementaria($data['solicitud_complementaria']);
-           $entityManager = $this->getDoctrine()->getManager();
-           $entityManager->persist($diagnostico);
-           $entityManager->flush();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($diagnostico);
+            $entityManager->flush();
            $this->addFlash('exito','Registro Guardado con Éxito');
 
            return $this->redirect($request->getUri());
@@ -70,7 +71,6 @@ class DiagnosticoController extends AbstractController
 
         return $this->render('diagnostico/new.html.twig', [
              'pedidos'=> $tr,
-             'pedidos2'=> $tr2,
             'antecedentes'=>$a,
             'antecedentes2'=>$a2,
             'consulta'=>$consulta,
@@ -103,7 +103,7 @@ class DiagnosticoController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
+            $this->addFlash('exito','Registro Actualizado con éxito');
             return $this->redirect($request->getUri());
         }
 
@@ -114,6 +114,45 @@ class DiagnosticoController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    
+       /**
+     * @Route("/copiar/paciente/{p}/antecedente/{id}/consulta/{c}", name="diagnostico_copiar", methods={"GET","POST"})
+     */
+    public function copiar(Request $request, Diagnostico $diagnostico,$p,$c): Response
+    {
+        $em= $this->getDoctrine()->getManager();
+        $paciente= $em->getRepository(Pacientes::class)->find($p);
+        $consulta= $em->getRepository(Consulta::class)->find($c);
+        $form = $this->createForm(DiagnosticoEdit2::class, $diagnostico);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data= $form->getData();
+            $diagnostico2 = new Diagnostico();
+            $diagnostico2->setPacientes($paciente);
+            $diagnostico2->setConsulta($consulta);
+            $diagnostico2->setCie($data->getCie());
+            $diagnostico2->setTipoDiagnostico($data->getTipoDiagnostico());
+            $diagnostico2->setSolicitud($data->getSolicitud());
+            $diagnostico2->setProcedimiento($data->getProcedimiento());
+            $diagnostico2->setInterconsulta($data->getInterconsulta());
+            $diagnostico2->setSolicitudComplementaria($data->getSolicitudComplementaria());
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($diagnostico2);
+            $entityManager->flush();
+            $this->addFlash('exito','Registro copiado con exito en la consulta actual');
+            return $this->redirect($request->getUri());
+        }
+
+        return $this->render('diagnostico/copiar.html.twig', [
+            'consulta'=>$consulta,
+            'paciente'=>$paciente,
+            'diagnostico' => $diagnostico,
+            'form' => $form->createView(),
+        ]);
+    }
+
 
     /**
      * @Route("/{id}", name="delate_diagnostico")

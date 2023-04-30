@@ -4,15 +4,15 @@
 
 {% block body %}
 <div class="card-body p-5 bg-white rounded">
-{% for flash_message in app.session.flashbag.get('exito') %}
-    <div class="flash-notice">
-        {{ flash_message }}
-    </div>
-{% endfor %}
+
  {{ include('full_antecedentes/ant_base.html.twig') }}
     {{ include('examenes/_form.html.twig') }}
 <br>
-     
+{% for flash_message in app.session.flashbag.get('exito') %}
+    <div class="alert alert-success" role="alert">
+       {{ flash_message }}
+</div>
+{% endfor %}
 
 
 
@@ -25,7 +25,7 @@
         <a id="home1-tab" data-toggle="tab" href="#home1" role="tab" aria-controls="home1" aria-selected="true" class="nav-link text-uppercase font-weight-bold mr-sm-3 rounded-0 border active">Registros Consulta Actual</a>
       </li>
       <li class="nav-item flex-sm-fill">
-        <a id="profile1-tab" data-toggle="tab" href="#profile1" role="tab" aria-controls="profile1" aria-selected="false" class="nav-link text-uppercase font-weight-bold mr-sm-3 rounded-0 border">Historial Resultados de Examenes</a>
+        <a id="profile1-tab" data-toggle="tab" href="#profile1" role="tab" aria-controls="profile1" aria-selected="false" class="nav-link text-uppercase font-weight-bold mr-sm-3 rounded-0 border">REGISTROS TODAS LAS CONSULTAS</a>
       </li>
     </ul>
 
@@ -87,10 +87,11 @@
                 <th>Fecha Examen</th>
                 <th>Resultado Examen</th>
                 <th>Observaciones</th>
+                <th>Acciones</th>
               
             </tr>
         </thead>
-        <tbody id="articles5">
+        <tbody id="articles55">
         {% for examene in c2 %}
             <tr>
                  
@@ -100,6 +101,9 @@
                 <td>{{ examene.fecha_examen ? examene.fecha_examen|date('Y-m-d') : '' }}</td>
                 <td>{{ examene.resultado_examen }}</td>
                 <td>{{ examene.Observaciones}}</td>
+                 <td>
+                     <a  class="dropdown-item" href="{{ path('examenes_copiar', {p: paciente.id, c: consulta.id, id: examene.id}) }}">Copiar antecedente</a>
+                </td>
             
             </tr>
             {% if c2 is empty %}
@@ -150,6 +154,27 @@
      });
    };
   </script>
+
+
+    <script>
+
+  const articles55 = document.getElementById('articles55');
+
+   if (articles55) {
+     articles55.addEventListener('click', e => {
+       if (e.target.className === 'dropdown-item delete-article') {
+         if (confirm('Esta seguro de eliminar este elemento?')) {
+             const value = e.target.getAttribute('data-id');
+             let route = "{{ path('delate_examen', { id: 'fileId_' }) }}";
+             route = route.replace('fileId_', value);
+           fetch(route, {
+             method: 'DELETE'
+           }).then(res => window.location.reload());
+         }
+       }
+     });
+   };
+  </script>
           
 
 <script type="text/javascript"> 
@@ -175,11 +200,7 @@
             visible: false
         } ],
             rowGroup: {
-            startRender: null,
-            startRender: function ( rows, group ) {
-                return group +' ('+rows.count()+')';
-            },
-            dataSrc: [0,1]
+            dataSrc: [0]
         },
 
          

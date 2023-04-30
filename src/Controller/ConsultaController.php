@@ -80,6 +80,7 @@ class ConsultaController extends AbstractController
             $entityManager->persist($s_vitales);
             $entityManager->persist($consultum);
             $entityManager->flush();
+            $this->addFlash('exito','Registro guardado con éxito');
             return $this->redirect($request->getUri());
         }
         return $this->render('consulta/new.html.twig', [

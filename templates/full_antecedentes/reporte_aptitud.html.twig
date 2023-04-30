@@ -2,6 +2,14 @@
 
 
 {% block body %}
+<style>
+    .row {
+        display: flex;
+    }
+    .align-items-center {
+        align-items: center;
+    }
+</style>
 
 {% set var3 = "Salida" %}  
  <a href="{{ path('aptitud_edit', {id: consulta.id, p: paciente.id}) }}" class="btn btn-block btn-outline-primary btn-sm" > Regresar a la ficha médica</a></br>
@@ -121,17 +129,31 @@
  </br>
  <h5 class="text-primary">DATOS DEL PROFESIONAL DE SALUD</h5>
  <h5>Dr/Dra: <b>{{consulta.employed.Nombre}}  {{consulta.employed.Apellido}} </b>  Fecha: <b>{{ consulta.fechaAtencion ? consulta.fechaAtencion|date('Y-m-d H:i:s') : '' }}</b></h5>
+ <h5>Fecha: <b>{{ consulta.fechaAtencion ? consulta.fechaAtencion|date('Y-m-d H:i:s') : '' }}</b></h5>
  </br>
  </br>
 </br>
- </br>
-        <div class="row vh-30 justify-content-around align-items-center">
-            <h6 class="text-center">Dr/Dra: <b>{{consulta.employed.Nombre }} {{consulta.employed.Apellido }}</b></h6>
-            <h6 class="text-center">_______________________</h6> 
 
-            <h6 class="text-center">Paciente: <b>{{paciente.pnombre}} {{paciente.snombre}} {{paciente.papellido}} {{paciente.sapellido}}</b></h6>
-            <h6 class="text-center">_______________________</h6>
-        </div>
+
+ <div class="row vh-30 align-items-center">
+    <div class="col text-center">
+        <h6>Dr/Dra: <b>{{consulta.employed.Nombre }} {{consulta.employed.Apellido }}</b></h6>
+        <br>
+        <br>
+        <br>
+        <br>
+        <h6>_______________________</h6> 
+    </div>
+    <div class="col text-center">
+        <h6>Paciente: <b>{{paciente.pnombre}} {{paciente.snombre}} {{paciente.papellido}} {{paciente.sapellido}}</b></h6>
+        <br>
+        <br>
+        <br>
+        <br>
+        <h6>_______________________</h6>
+    </div>
+</div>
+
       
     </div>
 

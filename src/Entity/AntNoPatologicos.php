@@ -144,6 +144,16 @@ class AntNoPatologicos
      */
     private $consulta;
 
+       /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $creatdate;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedate;
+
     
 
    
@@ -444,6 +454,30 @@ class AntNoPatologicos
     public function setConsulta(?Consulta $consulta): self
     {
         $this->consulta = $consulta;
+
+        return $this;
+    }
+
+    public function getCreatdate(): ?\DateTimeInterface
+    {
+        return $this->creatdate;
+    }
+
+    public function setCreatdate(?\DateTimeInterface $creatdate): self
+    {
+        $this->creatdate = $creatdate;
+
+        return $this;
+    }
+
+    public function getUpdatedate(): ?\DateTimeInterface
+    {
+        return $this->updatedate;
+    }
+
+    public function setUpdatedate(?\DateTimeInterface $updatedate): self
+    {
+        $this->updatedate = $updatedate;
 
         return $this;
     }

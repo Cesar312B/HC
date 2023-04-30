@@ -36,7 +36,7 @@ class AntLaboralesType extends AbstractType
         ])
         ->add('tiempo_trabajo',NumberType::class,[
             'label'=>'Tiempo de Trabajo',
-            'constraints' => new Range(['min' =>0]),
+            'constraints' => new Range(['min' => 0,'max'=>90]),
         ])
         ->add('riesgo',ChoiceType::class,[
             'placeholder'=>'Seleccione el riesgo',

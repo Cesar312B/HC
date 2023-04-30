@@ -3,13 +3,13 @@
 {% block title %}Edit Examenes{% endblock %}
 
 {% block body %}
-    <h1>Editar Pedidos de Exámenes</h1>
+    <h1>Pedidos de Exámenes</h1>
 {% for flash_message in app.session.flashbag.get('exito') %}
 <div class="alert alert-success" role="alert">
        {{ flash_message }}
 </div>
 {% endfor %}
-    {{ include('examenes/_form.html.twig', {'button_label': 'Actualizar'}) }}
+    {{ include('examenes/_form2.html.twig', {'button_label': 'Copiar'}) }}
 
   <a  href="{{ path('examenes_new', {id: paciente.id, c: consulta.id}) }}">
   

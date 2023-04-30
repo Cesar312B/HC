@@ -5,7 +5,7 @@
 
 {% block body %}
 <div class="card-body p-5 bg-white rounded">
-    <h6>Editar Diagnóstico para el/la Paciente: <b> {{diagnostico.pacientes.pnombre}} {{diagnostico.pacientes.snombre}} {{diagnostico.pacientes.papellido}} {{diagnostico.pacientes.sapellido}}</b></h6>
+    <h6>Diagnóstico para el/la Paciente: <b> {{diagnostico.pacientes.pnombre}} {{diagnostico.pacientes.snombre}} {{diagnostico.pacientes.papellido}} {{diagnostico.pacientes.sapellido}}</b></h6>
     <h6>Motivo de la Consulta: <b>{{ diagnostico.consulta.motivoconsulta }}</b>  Fecha: <b>{{ diagnostico.consulta.fechaatencion  ? diagnostico.consulta.fechaatencion|date('Y-m-d') : '' }}</b> Médico: <b>{{consulta.employed.Nombre }} {{consulta.employed.Apellido }}</b></h6>
 </br>
 {% for flash_message in app.session.flashbag.get('exito') %}
@@ -13,7 +13,7 @@
        {{ flash_message }}
 </div>
 {% endfor %}
-    {{ include('diagnostico/_form.html.twig', {'button_label': ' Actualizar'}) }}
+    {{ include('diagnostico/_form2.html.twig', {'button_label': 'Copiar'}) }}
     
     <a href="{{ path('diagnostico_new', {id: paciente.id, c: consulta.id}) }}">
     

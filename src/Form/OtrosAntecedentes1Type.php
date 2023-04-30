@@ -7,6 +7,7 @@ use App\Entity\Vacunas;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -27,10 +28,16 @@ class OtrosAntecedentes1Type extends AbstractType
                'choice_label'=>'Nombre',
                'attr' => ['data-select' => 'true']
             ])
-            ->add('n_dosis',NumberType::class,[
-                'label'=>'Número de dosis',
+            ->add('n_dosis',ChoiceType::class,[
                 'required' => false,
-                'constraints' => new Range(['min' =>0]),
+                'label'=>'Número de dosis',
+                'placeholder'=>'N_de dosis?',
+                'choices'=>[
+                    '1 Dosis' => '1',
+                    '2 Dosis' => '2',
+                    '3 Dosis' => '3',
+                    '4 Dosis' => '4'
+                   ]
             ])
             ->add('fecha_vacuna',BirthdayType::class,[
                 'required' => false,

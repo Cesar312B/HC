@@ -16,17 +16,19 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class DiagnosticoEdit extends AbstractType
+class DiagnosticoEdit2 extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
         ->add('cie',EntityType::class,[
+            'disabled' => true,
             'label'=>'Clasificación Internacional de Enfermedades',
             'class'=>CIE::class,
             'choice_label'=>function (CIE $materia) {
                 return  $materia->getCodigo(). ': ' . $materia->getDescripcion();},
-            'attr' => ['data-select' => 'true']
+            'attr' => ['data-select' => 'true'],
+           
         ])
         /*
         ->add('consulta',EntityType::class,[
@@ -43,19 +45,25 @@ class DiagnosticoEdit extends AbstractType
             'choice_label' => 'datos',
         ])*/
         ->add('tipo_diagnostico',ChoiceType::class,[
+            'disabled' => true,
             'label'=>'Tipo de diagnóstico',
             'choices'=>[
                 'PRESUNTIVO' => 'PRESUNTIVO',
                 'DEFINITIVO' => 'DEFINITIVO',
-               ]
+            ],
+            
+
         ])
         ->add('solicitud',TextType::class,[
+            'disabled' => true,
             'required'=>false,
+            'disabled' => true,
             'label'=>'Exámenes de Laboratorio',
             'attr' => ['class' => 'text-uppercase' ], 
             
         ])
         ->add('solicitud_complementaria',TextType::class,[
+            'disabled' => true,
             'required'=>false,
             'label'=>'Exámenes Complementarios',
             'attr' => ['class' => 'text-uppercase' ], 
@@ -63,11 +71,13 @@ class DiagnosticoEdit extends AbstractType
         ])
 
         ->add('procedimiento',TextType::class,[
+            'disabled' => true,
             'required'=>false,
             'label'=>'Fisioterapia',
             'attr' => ['class' => 'text-uppercase' ], 
         ])
         ->add('interconsulta',TextType::class,[
+            'disabled' => true,
             'required'=>false,
             'label'=>'Interconsulta',
             'attr' => ['class' => 'text-uppercase' ], 
@@ -81,7 +91,8 @@ class DiagnosticoEdit extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-        'data_class' => Diagnostico::class,
+          /*  
+        'data_class' => Diagnostico::class,*/
         ]);
     }
 }

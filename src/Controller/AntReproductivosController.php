@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use DateTime;
 
 /**
  * @Route("/ant/reproductivos")
@@ -40,7 +41,6 @@ class AntReproductivosController extends AbstractController
         $em= $this->getDoctrine()->getManager();
         $paciente= $em->getRepository(Pacientes::class)->find($id);
         $consulta= $em->getRepository(Consulta::class)->find($c);
-        $a=$antReproductivosRepository->findBy(['pacientes'=>$paciente,'consulta'=>$consulta]);
         $a2=$antReproductivosRepository->findBy(['pacientes'=>$paciente]);
         $antReproductivo = new AntReproductivos();
         $form = $this->createForm(AntReproductivosType::class, $antReproductivo);
@@ -49,7 +49,7 @@ class AntReproductivosController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $antReproductivo->setPacientes($paciente);
-            $antReproductivo->setConsulta($consulta);
+            $antReproductivo->setCreatdate(new DateTime());
             $entityManager->persist($antReproductivo);
             $entityManager->flush();
             $this->addFlash('exito','Registro Guardado con Éxito');
@@ -59,7 +59,6 @@ class AntReproductivosController extends AbstractController
 
         return $this->render('ant_reproductivos/new.html.twig', [
             'consulta'=>$consulta,
-            'antecedentes'=>$a,
             'antecedentes2'=>$a2,
             'paciente'=>$paciente,
             'ant_reproductivo' => $antReproductivo,
@@ -89,8 +88,9 @@ class AntReproductivosController extends AbstractController
         $form = $this->createForm(AntReproductivosType::class, $antReproductivo);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $antReproductivo->setUpdatedate(new DateTime());
             $this->getDoctrine()->getManager()->flush();
-
+            $this->addFlash('exito','Registro Actualizado con éxito');
             return $this->redirect($request->getUri());
         }
 

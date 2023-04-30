@@ -147,7 +147,7 @@
         {% for ant_quirugico in antq %}
             <tr>
   
-                <td>{{ ant_quirugico.ant_clinico }}</td>
+                <td>{{ ant_quirugico.antclinico }}</td>
                 <td>{{ ant_quirugico.tratamiento }}</td>
                 <td>{{ ant_quirugico.procedimiento }}</td>
                  <td>{{ ant_quirugico.tiempo }}</td>
@@ -189,8 +189,8 @@
         {% for ant_reproductivo in antr %}
             <tr>
                 <td>{{ ant_reproductivo.hijos }}</td>
-                 <td>{{ ant_reproductivo.vida_sexual }}</td> 
-                 <td>{{ ant_reproductivo.metodo_planificacion }}</td>
+                 <td>{{ ant_reproductivo.vidasexual }}</td> 
+                 <td>{{ ant_reproductivo.metodoplanificacion }}</td>
                   {% if paciente.sexo == s1 %}
                   <td>{{ ant_reproductivo.ciclos }}</td>
                 <td>{{ ant_reproductivo.gestas }}</td>
@@ -198,7 +198,7 @@
                 <td>{{ ant_reproductivo.abortos }}</td>
                 <td>{{ ant_reproductivo.cesareas }}</td>
                 <td>{{ ant_reproductivo.menarquia }}</td>
-                <td>{{ ant_reproductivo.ultima_menstruacion ? ant_reproductivo.ultima_menstruacion|date('Y-m-d') : '' }}</td>
+                <td>{{ ant_reproductivo.ultimamenstruacion ? ant_reproductivo.ultimamenstruacion|date('Y-m-d') : '' }}</td>
                    {% endif %}
      
             </tr>
@@ -233,18 +233,18 @@
         {% for ant_reproductivo in antr %}
             <tr>
                 
-                <td>{{ ant_reproductivo.ultima_mastografia }}</td>
-                <td>{{ ant_reproductivo.tiempo_mastografia }}</td>
-                <td>{{ ant_reproductivo.resultado_mastografia }}</td>
+                <td>{{ ant_reproductivo.ultimamastografia }}</td>
+                <td>{{ ant_reproductivo.tiempomastografia }}</td>
+                <td>{{ ant_reproductivo.resultadomastografia }}</td>
                 <td>{{ ant_reproductivo.colposcopia }}</td>
-                <td>{{ ant_reproductivo.tiempo_colposcopia }}</td>
-                <td>{{ ant_reproductivo.resultado_colposcopia }}</td>
+                <td>{{ ant_reproductivo.tiempocolposcopia }}</td>
+                <td>{{ ant_reproductivo.resultadocolposcopia }}</td>
                 <td>{{ ant_reproductivo.papanicolaou }}</td>
-                <td>{{ ant_reproductivo.tiempo_papanicolaou }}</td>
-                <td>{{ ant_reproductivo.resultado_papanicolaou }}</td>
-                <td>{{ ant_reproductivo.eco_mamario }}</td>
-                <td>{{ ant_reproductivo.tiempo_ecomamario }}</td>
-                <td>{{ ant_reproductivo.resultado_ecomamario }}</td>
+                <td>{{ ant_reproductivo.tiempopapanicolaou }}</td>
+                <td>{{ ant_reproductivo.resultadopapanicolaou }}</td>
+                <td>{{ ant_reproductivo.ecomamario }}</td>
+                <td>{{ ant_reproductivo.tiempoecomamario }}</td>
+                <td>{{ ant_reproductivo.resultadoecomamario }}</td>
                
             </tr>
         {% else %}
@@ -278,12 +278,12 @@
            
              
 
-                <td>{{ ant_reproductivo.antigeno_prostatico }}</td>
-                <td>{{ ant_reproductivo.tiempo_antigenoprostatico }}</td>
-                <td>{{ ant_reproductivo.resultado_antigenoprostatico }}</td>
-                <td>{{ ant_reproductivo.eco_prostatico }}</td>
-                <td>{{ ant_reproductivo.tiempo_ecoprostatico }}</td>
-                <td>{{ ant_reproductivo.resultado_ecoprostatico }}</td>
+                <td>{{ ant_reproductivo.antigenoprostatico }}</td>
+                <td>{{ ant_reproductivo.tiempoantigenoprostatico }}</td>
+                <td>{{ ant_reproductivo.resultadoantigenoprostatico }}</td>
+                <td>{{ ant_reproductivo.ecoprostatico }}</td>
+                <td>{{ ant_reproductivo.tiempoecoprostatico }}</td>
+                <td>{{ ant_reproductivo.resultadoecoprostatico }}</td>
              
                
             </tr>
@@ -313,9 +313,9 @@
         <tbody id="articles">
         {% for c in antn %}
             <tr>
-                <td>{{ c.deporte_select }}</td>
-                <td>{{ c.actividad_fisica}} </td>
-                <td>{{ c.numero_actividad_fisica}} </td>
+                <td>{{ c.deporteselect }}</td>
+                <td>{{ c.actividadfisica}} </td>
+                <td>{{ c.numeroactividadfisica}} </td>
       
             </tr>
         {% else %}
@@ -362,24 +362,24 @@
             <tr>
       
 
-                <td>{{ c.sustancia_selec }}</td>
-                <td>{{ c.tiempo_consumo_a }}</td>
-                <td>{{ c.cantidad_a }}</td>
-                <td>{{ c.exconsumidor_a }}</td>
-                <td>{{ c.tiempo_abstinencia_a }}</td>
+                <td>{{ c.sustanciaselec }}</td>
+                <td>{{ c.tiempoconsumoa }}</td>
+                <td>{{ c.cantidada }}</td>
+                <td>{{ c.exconsumidora }}</td>
+                <td>{{ c.tiempoabstinenciaa }}</td>
 
                 <td>{{ c.tabaco }}</td>
-                <td>{{ c.tiempo_consumo }}</td>
+                <td>{{ c.tiempoconsumo }}</td>
                 <td>{{ c.cantidad }}</td>
                 <td>{{ c.exconsumidor }}</td>
-                <td>{{ c.tiempo_abstinencia }}</td>
+                <td>{{ c.tiempoabstinencia }}</td>
 
-                <td>{{ c.uso_sustancias }}</td>
-                <td>{{ c.droga_descripcion }}</td>
-                <td>{{ c.tiempo_consumo_d }}</td>
-                <td>{{ c.numero_sustancias }}</td>
-                <td>{{ c.ex_consumidor }}</td>
-                <td>{{ c.tiempo_abstinencia_d }}</td>
+                <td>{{ c.usosustancias }}</td>
+                <td>{{ c.drogadescripcion }}</td>
+                <td>{{ c.tiempoconsumod }}</td>
+                <td>{{ c.numerosustancias }}</td>
+                <td>{{ c.exconsumidor }}</td>
+                <td>{{ c.tiempoabstinenciad }}</td>
 
              
             </tr>
@@ -404,9 +404,9 @@
         {% for c in antn %}
             <tr>
         
-                <td>{{ c.medicamento_select }}</td>
-                <td>{{ c.medicacion_abitual }}</td>
-                <td>{{ c.cantdad_medicacion }}</td>
+                <td>{{ c.medicamentoselect }}</td>
+                <td>{{ c.medicacionabitual }}</td>
+                <td>{{ c.cantdadmedicacion }}</td>
             </tr>
         {% else %}
             <tr>
@@ -432,9 +432,9 @@
         {% for ant_laborale in antl %}
             <tr>
                 <td>{{ ant_laborale.empresa }}</td>
-                 <td>{{ ant_laborale.puesto_trabajo }}</td>
+                 <td>{{ ant_laborale.puestotrabajo }}</td>
                   <td>{{ ant_laborale.actividades }}</td>
-                   <td>{{ ant_laborale.tiempo_trabajo }}</td>
+                   <td>{{ ant_laborale.tiempotrabajo }}</td>
                     <td>{{ ant_laborale.riesgo  ? ant_laborale.riesgo|json_encode : 'JSON_INVALID_UTF8_SUBSTITUTE' }}</td>
             </tr>
         {% else %}
@@ -464,15 +464,15 @@
         <tbody id="articles6">
         {% for ant_laborale in antl %}
             <tr>
-                     <td>{{ ant_laborale.ac_trabajo }}</td>
-                     <td>{{ ant_laborale.descripcion_accidentes }}</td>
-                      <td>{{ ant_laborale.fecha_accidente ?  ant_laborale.fecha_accidente|date('Y-m-d') : '' }}</td>
+                     <td>{{ ant_laborale.actrabajo }}</td>
+                     <td>{{ ant_laborale.descripcionaccidentes }}</td>
+                      <td>{{ ant_laborale.fechaaccidente ?  ant_laborale.fechaaccidente|date('Y-m-d') : '' }}</td>
                       <td>{{ ant_laborale.observaciones }}</td>
                      <td>{{ ant_laborale.enferemedad }}</td>
-                     <td>{{ ant_laborale.descripcion_emfermedad }}</td>
-                      <td>{{ ant_laborale.fecha_enfermedad ? ant_laborale.fecha_enfermedad|date('Y-m-d') : '' }}</td>
-                       <td>{{ ant_laborale.ob_enfermedades}}</td>
-                          <td>{{ ant_laborale.act_extra}}</td>
+                     <td>{{ ant_laborale.descripcionemfermedad }}</td>
+                      <td>{{ ant_laborale.fechaenfermedad ? ant_laborale.fechaenfermedad|date('Y-m-d') : '' }}</td>
+                       <td>{{ ant_laborale.obenfermedades}}</td>
+                          <td>{{ ant_laborale.actextra}}</td>
             </tr>
         {% else %}
             <tr>
@@ -547,7 +547,7 @@
         <tbody id="articles6">
         {% for ant_laborale in antl %}
             <tr>             
-             <td>{{ ant_laborale.act_extra}}</td>
+             <td>{{ ant_laborale.actextra}}</td>
             </tr>
         {% else %}
             <tr>
@@ -569,7 +569,7 @@
         <tbody id="articles">
         {% for ant_patologico in antp %}
             <tr>
-                <td>{{ ant_patologico.enfermedad_actual }}</td>
+                <td>{{ ant_patologico.enfermedadactual }}</td>
             </tr>
         {% else %}
             <tr>
@@ -601,13 +601,13 @@
         <tbody id="articles">
         {% for ant_patologico in antp %}
             <tr>
-                <td>{{ ant_patologico.piel_anexos }}</td>
-                <td>{{ ant_patologico.organos_sentidos }}</td>
+                <td>{{ ant_patologico.pielanexos }}</td>
+                <td>{{ ant_patologico.organossentidos }}</td>
                 <td>{{ ant_patologico.respiratorio }}</td>
                 <td>{{ ant_patologico.cardiovascular }}</td>
                 <td>{{ ant_patologico.digestivo }}</td>
-                <td>{{ ant_patologico.genito_urinario}}</td>
-                <td>{{ ant_patologico.musculo_esqueletico }}</td>
+                <td>{{ ant_patologico.genitourinario}}</td>
+                <td>{{ ant_patologico.musculoesqueletico }}</td>
                 <td>{{ ant_patologico.endocrino }}</td>
                 <td>{{ ant_patologico.hemolinfatico }}</td>
                 <td>{{ ant_patologico.nervioso }}</td>
@@ -648,7 +648,11 @@
             {% if  consulta.signosvitales.peso is defined and  consulta.signosvitales.peso is null  %}
             {% elseif  consulta.signosvitales.peso is defined and  consulta.signosvitales.peso is not null  %}
             {% set masacorporal = 0 %}
-            {% set masacorporal = ((consulta.signosvitales.peso)/(consulta.signosvitales.estatura **2))*10000 %}
+            {% if consulta.signosvitales.estatura != 0 %}
+                {% set masacorporal = ((consulta.signosvitales.peso)/(consulta.signosvitales.estatura **2))*10000 %}
+            {% else %}
+               {% set masacorporal = 0 %}
+            {% endif %}
         <tr>
             <th>Masa Corporal</th>
                 <td>
@@ -662,6 +666,8 @@
                         ->Sobrepeso
                     {% elseif masacorporal >= 30 %}
                         ->Obesidad
+                    {% elseif masacorporal == 0 %}
+                       ->No hay datos
                     {% endif %}
             {% endif %}
                  </td>
@@ -813,9 +819,9 @@
             <tr>
                
                 <td>{{ otros_antecedentes.alergias }}</td>
-                 <td>{{ otros_antecedentes.vacuna }}</td>
-                  <td>{{ otros_antecedentes.Dosis }}</td>
-                   <td>{{ otros_antecedentes.fecha_vacuna  ? otros_antecedentes.fecha_vacuna|date('Y-m-d') : ''}}</td>
+                 <td>{{ otros_antecedentes.vacunas.Nombre }}</td>
+                  <td>{{ otros_antecedentes.ndosis }}</td>
+                   <td>{{ otros_antecedentes.fechavacuna  ? otros_antecedentes.fechavacuna|date('Y-m-d') : ''}}</td>
                
             </tr>
         {% else %}
@@ -886,10 +892,11 @@
               
                      
             </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">No Existen Registros</td>
-            </tr>
+               {% if diagnosticos is empty %}
+           <tr>
+        <td colspan="4">No hay registros disponibles</td>
+           </tr>
+        {% endif %} 
         {% endfor %}
         </tbody>
     </table>
@@ -919,6 +926,11 @@
                 <td> </td>
               
             </tr>
+             {% if diagnosticos is empty %}
+           <tr>
+              <td colspan="4">No hay registros disponibles</td>
+           </tr>
+         {% endif %}
         {% endfor %}
 
         </tbody>
@@ -1010,10 +1022,12 @@
     </tr>
   </tbody>
 </table>
+{% endif %}
 
 
 
- {% endif %}
+
+
 
 {% if consulta.motivoconsulta == var2 %}
 <h5 class="text-primary">ANTECEDENTES PERSONALES</h5>
@@ -1035,7 +1049,7 @@
         {% for ant_quirugico in antq %}
             <tr>
   
-                <td>{{ ant_quirugico.ant_clinico }}</td>
+                <td>{{ ant_quirugico.antclinico }}</td>
                 <td>{{ ant_quirugico.tratamiento }}</td>
                 <td>{{ ant_quirugico.procedimiento }}</td>
                  <td>{{ ant_quirugico.tiempo }}</td>
@@ -1066,9 +1080,9 @@
         <tbody id="articles">
         {% for c in antn %}
             <tr>
-                <td>{{ c.deporte_select }}</td>
-                <td>{{ c.actividad_fisica}} </td>
-                <td>{{ c.numero_actividad_fisica}} </td>
+                <td>{{ c.deporteselect }}</td>
+                <td>{{ c.actividadfisica}} </td>
+                <td>{{ c.numeroactividadfisica}} </td>
       
             </tr>
         {% else %}
@@ -1115,24 +1129,24 @@
             <tr>
       
 
-                <td>{{ c.sustancia_selec }}</td>
-                <td>{{ c.tiempo_consumo_a }}</td>
-                <td>{{ c.cantidad_a }}</td>
-                <td>{{ c.exconsumidor_a }}</td>
-                <td>{{ c.tiempo_abstinencia_a }}</td>
+                <td>{{ c.sustanciaselec }}</td>
+                <td>{{ c.tiempoconsumoa }}</td>
+                <td>{{ c.cantidada }}</td>
+                <td>{{ c.exconsumidora }}</td>
+                <td>{{ c.tiempoabstinenciaa }}</td>
 
                 <td>{{ c.tabaco }}</td>
-                <td>{{ c.tiempo_consumo }}</td>
+                <td>{{ c.tiempoconsumo }}</td>
                 <td>{{ c.cantidad }}</td>
                 <td>{{ c.exconsumidor }}</td>
-                <td>{{ c.tiempo_abstinencia }}</td>
+                <td>{{ c.tiempoabstinencia }}</td>
 
-                <td>{{ c.uso_sustancias }}</td>
-                <td>{{ c.droga_descripcion }}</td>
-                <td>{{ c.tiempo_consumo_d }}</td>
-                <td>{{ c.numero_sustancias }}</td>
-                <td>{{ c.ex_consumidor }}</td>
-                <td>{{ c.tiempo_abstinencia_d }}</td>
+                <td>{{ c.usosustancias }}</td>
+                <td>{{ c.drogadescripcion }}</td>
+                <td>{{ c.tiempoconsumod }}</td>
+                <td>{{ c.numerosustancias }}</td>
+                <td>{{ c.exconsumidor }}</td>
+                <td>{{ c.tiempoabstinenciad }}</td>
 
              
             </tr>
@@ -1160,9 +1174,9 @@
         {% for c in antn %}
             <tr>
         
-                <td>{{ c.medicamento_select }}</td>
-                <td>{{ c.medicacion_abitual }}</td>
-                <td>{{ c.cantdad_medicacion }}</td>
+                <td>{{ c.medicamentoselect }}</td>
+                <td>{{ c.medicacionabitual }}</td>
+                <td>{{ c.cantdadmedicacion }}</td>
             </tr>
         {% else %}
             <tr>
@@ -1188,9 +1202,9 @@
         {% for ant_laborale in antl %}
             <tr>
                 <td>{{ ant_laborale.empresa }}</td>
-                 <td>{{ ant_laborale.puesto_trabajo }}</td>
+                 <td>{{ ant_laborale.puestotrabajo }}</td>
                   <td>{{ ant_laborale.actividades }}</td>
-                   <td>{{ ant_laborale.tiempo_trabajo }}</td>
+                   <td>{{ ant_laborale.tiempotrabajo }}</td>
                     <td>{{ ant_laborale.riesgo  ? ant_laborale.riesgo|json_encode : '' }}</td>
             </tr>
         {% else %}
@@ -1220,15 +1234,15 @@
         <tbody id="articles6">
         {% for ant_laborale in antl %}
             <tr>
-                     <td>{{ ant_laborale.ac_trabajo }}</td>
-                     <td>{{ ant_laborale.descripcion_accidentes }}</td>
-                      <td>{{ ant_laborale.fecha_accidente ?  ant_laborale.fecha_accidente|date('Y-m-d') : '' }}</td>
+                     <td>{{ ant_laborale.actrabajo }}</td>
+                     <td>{{ ant_laborale.descripcionaccidentes }}</td>
+                      <td>{{ ant_laborale.fechaaccidente ?  ant_laborale.fechaaccidente|date('Y-m-d') : '' }}</td>
                       <td>{{ ant_laborale.observaciones }}</td>
                      <td>{{ ant_laborale.enferemedad }}</td>
-                     <td>{{ ant_laborale.descripcion_emfermedad }}</td>
-                      <td>{{ ant_laborale.fecha_enfermedad ? ant_laborale.fecha_enfermedad|date('Y-m-d') : '' }}</td>
-                       <td>{{ ant_laborale.ob_enfermedades}}</td>
-                          <td>{{ ant_laborale.act_extra}}</td>
+                     <td>{{ ant_laborale.descripcionemfermedad }}</td>
+                      <td>{{ ant_laborale.fechaenfermedad ? ant_laborale.fechaenfermedad|date('Y-m-d') : '' }}</td>
+                       <td>{{ ant_laborale.obenfermedades}}</td>
+                          <td>{{ ant_laborale.actextra}}</td>
             </tr>
         {% else %}
             <tr>
@@ -1302,7 +1316,7 @@
         <tbody id="articles">
         {% for ant_patologico in antp %}
             <tr>
-                <td>{{ ant_patologico.enfermedad_actual }}</td>
+                <td>{{ ant_patologico.enfermedadactual }}</td>
             </tr>
         {% else %}
             <tr>
@@ -1334,13 +1348,13 @@
         <tbody id="articles">
         {% for ant_patologico in antp %}
             <tr>
-                <td>{{ ant_patologico.piel_anexos }}</td>
-                <td>{{ ant_patologico.organos_sentidos }}</td>
+                <td>{{ ant_patologico.pielanexos }}</td>
+                <td>{{ ant_patologico.organossentidos }}</td>
                 <td>{{ ant_patologico.respiratorio }}</td>
                 <td>{{ ant_patologico.cardiovascular }}</td>
                 <td>{{ ant_patologico.digestivo }}</td>
-                <td>{{ ant_patologico.genito_urinario}}</td>
-                <td>{{ ant_patologico.musculo_esqueletico }}</td>
+                <td>{{ ant_patologico.genitourinario}}</td>
+                <td>{{ ant_patologico.musculoesqueletico }}</td>
                 <td>{{ ant_patologico.endocrino }}</td>
                 <td>{{ ant_patologico.hemolinfatico }}</td>
                 <td>{{ ant_patologico.nervioso }}</td>
@@ -1381,7 +1395,12 @@
             {% if  consulta.signosvitales.peso is defined and  consulta.signosvitales.peso is null  %}
             {% elseif  consulta.signosvitales.peso is defined and  consulta.signosvitales.peso is not null  %}
             {% set masacorporal = 0 %}
-            {% set masacorporal = ((consulta.signosvitales.peso)/(consulta.signosvitales.estatura **2))*10000 %}
+
+            {% if consulta.signosvitales.estatura != 0 %}
+             {% set masacorporal = ((consulta.signosvitales.peso)/(consulta.signosvitales.estatura **2))*10000 %}
+           {% else %}
+                {% set masacorporal = 0 %}
+                 {% endif %}
         <tr>
             <th>Masa Corporal</th>
                 <td>
@@ -1395,6 +1414,8 @@
                         ->Sobrepeso
                     {% elseif masacorporal >= 30 %}
                         ->Obesidad
+                     {% elseif masacorporal == 0 %}   
+                     -> no hay datos
                     {% endif %}
             {% endif %}
                  </td>
@@ -1547,9 +1568,13 @@
             <tr>
                
                 <td>{{ otros_antecedentes.alergias }}</td>
-                 <td>{{ otros_antecedentes.vacuna }}</td>
-                  <td>{{ otros_antecedentes.Dosis }}</td>
-                   <td>{{ otros_antecedentes.fecha_vacuna  ? otros_antecedentes.fecha_vacuna|date('Y-m-d') : ''}}</td>
+                 {% if  otros_antecedentes.vacunas.Nombre is defined and otros_antecedentes.vacunas.Nombre  is not null %}
+                 <td>{{ otros_antecedentes.vacunas.Nombre }}</td>
+                 {% else %}
+                 <td></td>
+                 {% endif %}
+                  <td>{{ otros_antecedentes.ndosis }}</td>
+                   <td>{{ otros_antecedentes.fechavacuna  ? otros_antecedentes.fechavacuna|date('Y-m-d') : ''}}</td>
                
             </tr>
         {% else %}
@@ -1620,10 +1645,11 @@
               
                      
             </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">No Existen Registros</td>
-            </tr>
+        {% if diagnosticos is empty %}
+           <tr>
+               <td colspan="4">No hay registros disponibles</td>
+           </tr>
+        {% endif %} 
         {% endfor %}
         </tbody>
     </table>
@@ -1675,6 +1701,12 @@
                 <td> </td>
               
             </tr>
+
+            {% if diagnosticos is empty %}
+           <tr>
+              <td colspan="4">No hay registros disponibles</td>
+           </tr>
+         {% endif %}
         {% endfor %}
 
         </tbody>
@@ -1698,6 +1730,11 @@
                 <td> </td>
               
             </tr>
+            {% if diagnosticos is empty %}
+           <tr>
+              <td colspan="4">No hay registros disponibles</td>
+           </tr>
+         {% endif %}
         {% endfor %}
 
         </tbody>
@@ -1750,7 +1787,9 @@
 
  {% if consulta.motivoconsulta == var3 %}
 
- <h5 class="text-primary">ANTECEDENTES PERSONALES</h5>
+
+ 
+<h5 class="text-primary">ANTECEDENTES PERSONALES</h5>
 <h6> Antecedentes Clínico Quirúrgicos </h6>
    <table id="exmaple" style="width:100%" class="content-table table-sm">
         <thead>
@@ -1769,7 +1808,7 @@
         {% for ant_quirugico in antq %}
             <tr>
   
-                <td>{{ ant_quirugico.ant_clinico }}</td>
+                <td>{{ ant_quirugico.antclinico }}</td>
                 <td>{{ ant_quirugico.tratamiento }}</td>
                 <td>{{ ant_quirugico.procedimiento }}</td>
                  <td>{{ ant_quirugico.tiempo }}</td>
@@ -1801,9 +1840,9 @@
         {% for ant_laborale in antl %}
             <tr>
                 <td>{{ ant_laborale.empresa }}</td>
-                 <td>{{ ant_laborale.puesto_trabajo }}</td>
+                 <td>{{ ant_laborale.puestotrabajo }}</td>
                   <td>{{ ant_laborale.actividades }}</td>
-                   <td>{{ ant_laborale.tiempo_trabajo }}</td>
+                   <td>{{ ant_laborale.tiempotrabajo }}</td>
                     <td>{{ ant_laborale.riesgo  ? ant_laborale.riesgo|json_encode : '' }}</td>
             </tr>
         {% else %}
@@ -1833,15 +1872,15 @@
         <tbody id="articles6">
         {% for ant_laborale in antl %}
             <tr>
-                     <td>{{ ant_laborale.ac_trabajo }}</td>
-                     <td>{{ ant_laborale.descripcion_accidentes }}</td>
-                      <td>{{ ant_laborale.fecha_accidente ?  ant_laborale.fecha_accidente|date('Y-m-d') : '' }}</td>
+                     <td>{{ ant_laborale.actrabajo }}</td>
+                     <td>{{ ant_laborale.descripcionaccidentes }}</td>
+                      <td>{{ ant_laborale.fechaaccidente ?  ant_laborale.fechaaccidente|date('Y-m-d') : '' }}</td>
                       <td>{{ ant_laborale.observaciones }}</td>
                      <td>{{ ant_laborale.enferemedad }}</td>
-                     <td>{{ ant_laborale.descripcion_emfermedad }}</td>
-                      <td>{{ ant_laborale.fecha_enfermedad ? ant_laborale.fecha_enfermedad|date('Y-m-d') : '' }}</td>
-                       <td>{{ ant_laborale.ob_enfermedades}}</td>
-                          <td>{{ ant_laborale.act_extra}}</td>
+                     <td>{{ ant_laborale.descripcionemfermedad }}</td>
+                      <td>{{ ant_laborale.fechaenfermedad ? ant_laborale.fechaenfermedad|date('Y-m-d') : '' }}</td>
+                       <td>{{ ant_laborale.obenfermedades}}</td>
+                          <td>{{ ant_laborale.actextra}}</td>
             </tr>
         {% else %}
             <tr>
@@ -1863,7 +1902,7 @@
         <tbody id="articles">
         {% for ant_patologico in antp %}
             <tr>
-                <td>{{ ant_patologico.enfermedad_actual }}</td>
+                <td>{{ ant_patologico.enfermedadactual }}</td>
             </tr>
         {% else %}
             <tr>
@@ -1900,7 +1939,12 @@
             {% if  consulta.signosvitales.peso is defined and  consulta.signosvitales.peso is null  %}
             {% elseif  consulta.signosvitales.peso is defined and  consulta.signosvitales.peso is not null  %}
             {% set masacorporal = 0 %}
-            {% set masacorporal = ((consulta.signosvitales.peso)/(consulta.signosvitales.estatura **2))*10000 %}
+            
+            {% if consulta.signosvitales.estatura != 0 %}
+             {% set masacorporal = ((consulta.signosvitales.peso)/(consulta.signosvitales.estatura **2))*10000 %}
+          {% else %}
+             {% set masacorporal = 0 %}
+              {% endif %}
               
       <tr>
         <th>Masa Corporal</th>
@@ -1915,8 +1959,9 @@
               ->Sobrepeso
             {% elseif masacorporal >= 30 %}
               ->Obesidad
+            {% elseif masacorporal == 0 %}
+            ->No hay datos
             {% endif %}
-
          {% endif %}
           </td>
       </tr>
@@ -2067,9 +2112,9 @@
             <tr>
                
                 <td>{{ otros_antecedentes.alergias }}</td>
-                 <td>{{ otros_antecedentes.vacuna }}</td>
-                  <td>{{ otros_antecedentes.Dosis }}</td>
-                   <td>{{ otros_antecedentes.fecha_vacuna  ? otros_antecedentes.fecha_vacuna|date('Y-m-d') : ''}}</td>
+                 <td>{{ otros_antecedentes.vacunas.Nombre }}</td>
+                  <td>{{ otros_antecedentes.ndosis }}</td>
+                   <td>{{ otros_antecedentes.fechavacuna  ? otros_antecedentes.fechavacuna|date('Y-m-d') : ''}}</td>
                
             </tr>
         {% else %}
@@ -2140,10 +2185,12 @@
               
                      
             </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">No Existen Registros</td>
-            </tr>
+        {% if diagnosticos is empty %}
+           <tr>
+        <td colspan="4">No hay registros disponibles</td>
+           </tr>
+        {% endif %} 
+       
         {% endfor %}
         </tbody>
     </table>
@@ -2268,7 +2315,7 @@
  {% endif %}
 
 
-  {% if consulta.motivoconsulta == var4 %}
+{% if consulta.motivoconsulta == var4 %}
 
 <h5 class="text-primary">ENFERMEDAD ACTUAL</h5>
 
@@ -2281,7 +2328,7 @@
         <tbody id="articles">
         {% for ant_patologico in antp %}
             <tr>
-                <td>{{ ant_patologico.enfermedad_actual }}</td>
+                <td>{{ ant_patologico.enfermedadactual }}</td>
             </tr>
         {% else %}
             <tr>
@@ -2318,7 +2365,11 @@
             {% if  consulta.signosvitales.peso is defined and  consulta.signosvitales.peso is null  %}
             {% elseif  consulta.signosvitales.peso is defined and  consulta.signosvitales.peso is not null  %}
             {% set masacorporal = 0 %}
+            {% if consulta.signosvitales.estatura != 0 %}
             {% set masacorporal = ((consulta.signosvitales.peso)/(consulta.signosvitales.estatura **2))*10000 %}
+           {% else %}
+             {% set masacorporal = 0 %}
+           {% endif %}
               
       <tr>
         <th>Masa Corporal</th>
@@ -2333,6 +2384,8 @@
               ->Sobrepeso
             {% elseif masacorporal >= 30 %}
               ->Obesidad
+            {% elseif masacorporal == 0 %}
+            ->No hay registros
             {% endif %}
 
          {% endif %}
@@ -2485,9 +2538,9 @@
             <tr>
                
                 <td>{{ otros_antecedentes.alergias }}</td>
-                 <td>{{ otros_antecedentes.vacuna }}</td>
-                  <td>{{ otros_antecedentes.Dosis }}</td>
-                   <td>{{ otros_antecedentes.fecha_vacuna  ? otros_antecedentes.fecha_vacuna|date('Y-m-d') : ''}}</td>
+                 <td>{{ otros_antecedentes.vacunas.Nombre }}</td>
+                  <td>{{ otros_antecedentes.ndosis }}</td>
+                   <td>{{ otros_antecedentes.fechavacuna  ? otros_antecedentes.fechavacuna|date('Y-m-d') : ''}}</td>
                
             </tr>
         {% else %}
@@ -2559,10 +2612,11 @@
               
                      
             </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">No Existen Registros</td>
-            </tr>
+                {% if diagnosticos is empty %}
+           <tr>
+        <td colspan="4">No hay registros disponibles</td>
+           </tr>
+        {% endif %} 
         {% endfor %}
         </tbody>
     </table>
@@ -2660,6 +2714,12 @@
                 <td> </td>
               
             </tr>
+
+            {% if diagnosticos is empty %}
+           <tr>
+              <td colspan="4">No hay registros disponibles</td>
+           </tr>
+         {% endif %}
         {% endfor %}
 
         </tbody>
@@ -2683,7 +2743,9 @@
     </tr>
   </tbody>
 </table>
+
  {% endif %}
+ 
  <h5 class="text-primary">DATOS DEL PROFESIONAL</h5>
  <h5>Dr/Dra: <b>{{consulta.employed.Nombre}}  {{consulta.employed.Apellido}} </b>  Fecha: <b>{{ consulta.fechaAtencion ? consulta.fechaAtencion|date('Y-m-d H:i:s') : '' }}</b></h5>
  </br>

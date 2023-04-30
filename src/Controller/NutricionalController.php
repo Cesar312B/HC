@@ -7,6 +7,7 @@ use App\Entity\Nutricional;
 use App\Entity\Pacientes;
 use App\Form\DNutricionalType;
 use App\Form\NutricionalType;
+use App\Form\NutricionalType2;
 use App\Repository\ConsultaRepository;
 use App\Repository\NutricionalRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -42,11 +43,11 @@ class NutricionalController extends AbstractController
         $em= $this->getDoctrine()->getManager();
         $paciente= $em->getRepository(Pacientes::class)->find($id);
         $consulta= $em->getRepository(Consulta::class)->find($c);
+        $fecha_consulta = $consulta->getFechaAtencion();
         $c= $consultaRepository->consulta_nutricional($consulta->getId());
-        $c2= $consultaRepository->consulta_nutricional_full($paciente->getId());
+        $c2= $consultaRepository->consulta_nutricional_full($paciente->getId(),$consulta->getId(),$fecha_consulta);
         $form2 = $this->createForm(DNutricionalType::class, $consulta);
         $form2->handleRequest($request);
-
         if ($form2->isSubmitted() && $form2->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
 
@@ -110,6 +111,39 @@ class NutricionalController extends AbstractController
         }
 
         return $this->render('nutricional/edit.html.twig', [
+            'consulta'=>$consulta,
+            'paciente'=>$paciente,
+            'nutricional' => $nutricional,
+            'form' => $form->createView(),
+        ]);
+    }
+
+     /**
+     * @Route("/copiar/paciente/{p}/antecedente/{id}/consulta/{c}", name="nutricional_copiar", methods={"GET","POST"})
+     */
+    public function copiar(Request $request, Nutricional $nutricional,$p,$c): Response
+    {
+        $em= $this->getDoctrine()->getManager();
+        $paciente= $em->getRepository(Pacientes::class)->find($p);
+        $consulta= $em->getRepository(Consulta::class)->find($c);
+        $nutricional2 = new Nutricional();
+        $form = $this->createForm(NutricionalType2::class, $nutricional);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data= $form->getData();
+            $nutricional2->setConsulta($consulta);
+            $nutricional2->setSuptipoNutricional($data->getSuptipoNutricional());
+            $nutricional2->setDescripcionHab($data->getDescripcionHab());
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($nutricional2);
+            $entityManager->flush();
+
+            return $this->redirect($request->getUri());
+           
+        }
+
+        return $this->render('nutricional/copy.html.twig', [
             'consulta'=>$consulta,
             'paciente'=>$paciente,
             'nutricional' => $nutricional,

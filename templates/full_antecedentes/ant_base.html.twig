@@ -1,7 +1,11 @@
+  
      {% set var = "Ingreso" %}  
       {% set var2 = "Periódica" %}  
       {% set var3 = "Salida" %}  
        {% set var4 = "Reingreso" %}  
+      {% set s1 = "Mujer" %}  
+     {% set s2 = "Hombre" %}  
+
   
 <a href="{{ path('consulta_new', {'id': paciente.id}) }}" title="Consulta" > 
       <button class="btn btn-block btn-outline-primary btn-sm text-uppercase">
@@ -14,16 +18,19 @@
         <div class="col-12 mt-3">
             <div class="card">
                 <div class="card-horizontal">
+                
                     <div class="img-square-wrapper">
-                        <img class="mr-3  img-thumbnail shadow-sm" src="{{ asset('uploads/'~paciente.image) }}"  width="200" height="200" alt="Card image cap">
+                      {% if paciente.sexo == s2  %}
+                        <img class="mr-3  img-thumbnail shadow-sm" src="{{ asset('image/usuario.jpg') }}"  width="200" height="200" alt="Card image cap">
+                 {% elseif paciente.sexo == s1 %}
+                      <img class="mr-3  img-thumbnail shadow-sm" src="{{ asset('image/usuaria.jpg') }}"  width="200" height="200" alt="Card image cap">
+                {% endif %}
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">Cédula: {{ paciente.cedula }}</h5></br>
            <p class="font-weight-light text-muted mb-0">Nombre: <b>{{ paciente.pnombre }} {{ paciente.snombre }} {{ paciente.papellido }} {{ paciente.sapellido }}</p></b>
               <p class="font-weight-light text-muted mb-0">Edad: <b>{{ date('now').diff((date(paciente.fechaNacimiento))).format('%y años') }}</p></b>
                  <p class="font-weight-light text-muted mb-0">Sexo: <b>{{paciente.sexo}}</p></b>
-                    <p class="font-weight-light text-muted mb-0">Consulta: <b>{{ consulta.motivoconsulta}}</p></b>
-                    <p class="font-weight-light text-muted mb-0">Fecha: <b>{{ consulta.fechaAtencion ? consulta.fechaAtencion|date('Y-m-d H:i:s') : '' }}</p></b>
                     <p class="font-weight-light text-muted mb-0">Puesto de Trabajo: <b>{{ paciente.puestotrabajo.nombre }}</p></b>
                     </div>
 
@@ -49,20 +56,27 @@
                 <div class="card-footer">
                     <small class="text-muted">  
 
-                    <a type="button"  data-toggle="modal">
-    
- <i class="fa-solid fa-book-medical">Motivo Consulta:{{consulta.motivoconsulta}}</i> 
-</a>
-<a type="button" data-toggle="modal" >
-<i class="fa-solid fa-calendar-days">Fecha Consulta:{{ consulta.fechaatencion ? consulta.fechaatencion|date('Y-m-d') : '' }} </i> 
-</a>                                     
-   <br>                   
+                                    
 <a type="button"  data-toggle="modal" data-target="#exampleModalLong3">
  <i class="fas fa-child"> Ver Datos personales del Paciente</i> 
 </a>
 <a type="button" data-toggle="modal" data-target="#exampleModalLong1">
 <i class="fas fa-info-circle"> Ver Signos Vitales</i> 
 </a>
+<br>
+
+
+<a type="button"  data-toggle="modal">
+Motivo de la Consulta: {{consulta.motivoconsulta}}
+</a>
+<br>
+<a type="button" data-toggle="modal" >
+Medico: {{consulta.employed.Nombre}} {{consulta.employed.Apellido}}
+</a> 
+<br>
+<a type="button" data-toggle="modal" >
+Fecha de la Consulta: {{ consulta.fechaatencion ? consulta.fechaatencion|date('Y-m-d') : '' }} 
+</a> 
 
 
                     </small>
@@ -116,7 +130,13 @@
           {% if  consulta.signosvitales.peso is defined and  consulta.signosvitales.peso is null  %}
             {% elseif  consulta.signosvitales.peso is defined and  consulta.signosvitales.peso is not null  %}
             {% set masacorporal = 0 %}
+
+
+            {% if consulta.signosvitales.estatura != 0 %}
             {% set tv = ((consulta.signosvitales.peso)/(consulta.signosvitales.estatura **2))*10000 %}
+            {% else %}
+            {% set tv = 0 %}
+            {% endif %}
               
       <tr>
         <th>Masa Corporal</th>
@@ -538,6 +558,7 @@
 
 
 {% endif %}
+
 
 
 

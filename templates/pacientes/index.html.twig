@@ -31,14 +31,13 @@
  {% endif %}
      </br>
 
-  {% if is_granted("ROLE_SUPER_ADMIN") %}
+  {% if is_granted('ROLE_MEDICO') or is_granted('ROLE_SUPER_ADMIN') %}
        <div class="table-responsive">
        <table id="example" class="content-table table-sm" style="width:100%">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Cedula</th>
-                <th>Imagen</th>
                 <th>Nombres</th>
                 <th>Apellidos</th>
                 <th>Fecha Nacimiento</th>
@@ -58,7 +57,7 @@
            
                 <td>{{ paciente.id }}</td>
                 <td>{{ paciente.cedula }}</td>
-                <td><img src="{{ asset('uploads/'~paciente.image) }}" alt="" width="50" class="mr-3 rounded-circle img-thumbnail shadow-sm"></td>
+               
                 <td>{{ paciente.pnombre }} {{ paciente.snombre }}</td>
                 <td>{{ paciente.papellido }} {{ paciente.sapellido }}</td>
                 <td>{{ paciente.fechaNacimiento ? paciente.fechaNacimiento|date('Y-m-d') : '' }}</td>
@@ -112,104 +111,7 @@
  </div>
   {% endif %}
 
-{% if is_granted("ROLE_MEDICO") %}
-    <div class="table-responsive">
-       <table id="example2" class="content-table table-sm" style="width:100%">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Cedula</th>
-                <th>Imagen</th>
-                <th>Nombres</th>
-                <th>Apellidos</th>
-                <th>Fecha Nacimiento</th>
-                <th>Edad</th>
-                <th>Fecha Ingreso</th>
-                <th>Provincia</th>
-                <th>Ciudad</th>
-                 <th>Regional</th>
-                 <th>Oficina</th>
-                <th>Puesto de Trabajo </th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for paciente in pacientes %}
-            <tr>
-           
-                <td>{{ paciente.id }}</td>
-                <td>{{ paciente.cedula }}</td>
-                <td><img src="{{ asset('uploads/'~paciente.image) }}" alt="" width="50" class="mr-3 rounded-circle img-thumbnail shadow-sm"></td>
-                <td>{{ paciente.pnombre }} {{ paciente.snombre }}</td>
-                <td>{{ paciente.papellido }} {{ paciente.sapellido }}</td>
-                <td>{{ paciente.fechaNacimiento ? paciente.fechaNacimiento|date('Y-m-d') : '' }}</td>
-                <td>{{ date('now').diff((date(paciente.fechaNacimiento))).format('%y años') }}</td>
-                <td>{{ paciente.fechaIngreso ? paciente.fechaIngreso|date('Y-m-d') : '' }}</td>
-                <td>
-                {% if  paciente.ciudad.provincia.nombre is defined and paciente.ciudad.provincia.nombre is null  %}
-                .....
-                {% elseif paciente.ciudad.provincia.nombre  is defined and paciente.ciudad.provincia.nombre  is not null  %}
-                {{ paciente.ciudad.provincia.nombre}}
-                {% endif %}
-                 </td>
-                 <td>
-                {% if  paciente.ciudad.nombre is defined and paciente.ciudad.nombre is null  %}
-                .....
-                {% elseif paciente.ciudad.nombre  is defined and paciente.ciudad.nombre  is not null  %}
-                {{ paciente.ciudad.nombre}}
-                {% endif %}
-                 </td>
 
-                <td>
-                   {% if  paciente.unidadesoperativas.regional is defined and paciente.unidadesoperativas.regional is null  %}
-                   ----
-                 {% elseif paciente.unidadesoperativas.regional  is defined and paciente.unidadesoperativas.regional  is not null  %}
-                 {{ paciente.unidadesoperativas.regional}} 
-                  {% endif %}
-                
-                
-                 </td>
-                <td>
-             {% if  paciente.unidadesoperativas.nombre is defined and paciente.unidadesoperativas.nombre is null  %}
-
-                ......
-                  {% elseif paciente.unidadesoperativas.nombre  is defined and paciente.unidadesoperativas.nombre  is not null  %}
-                {{ paciente.unidadesoperativas.nombre}} 
-                {% endif %}
-                
-                </td>
-                
-                <td>
-
-                {% if  paciente.puestotrabajo.nombre is defined and paciente.puestotrabajo.nombre is null  %}
-                   ....
-                  {% elseif paciente.puestotrabajo.nombre is defined and paciente.puestotrabajo.nombre is not null  %}
-                     {{ paciente.puestotrabajo.nombre}}
-                {% endif %}
-                
-                </td>
-
-                <td>
-
-                    <a href="{{ path('consulta_new', {'id': paciente.id}) }}" title="Ficha Médica"><i class="fas fa-calendar-plus"></i></a> 
-                   
-                </td>
-
-            </tr>
-           {% if paciente is empty %}
-             <tr>
-                <td colspan="4">No Existen Registros</td>
-            </tr>
-           {% endif %}
-        {% endfor %}
-          
-        </tbody>
-        <tfoot>
-        </tfoot>
-       
-    </table>
-</div>
-{% endif %}
       
 
         </div>
@@ -233,16 +135,18 @@
        $(document).ready(function() {
         $('#example').DataTable( {
 
-           dom: 'Bfrtip',
+             
         
             language: {
             url: 'https://cdn.datatables.net/plug-ins/1.10.22/i18n/Spanish.json'
         },
 
-
+          dom: 'Bfrtip',
        
          'responsive': true,
-         "order": [[ 0, "desc" ]]
+         "order": [[ 0, "desc" ]],
+ 
+
          
   } );
     } );
@@ -250,22 +154,7 @@
   
  </script>
 
-  <script> 
-       $(document).ready(function() {
-        $('#example2').DataTable( {
-            language: {
-            url: 'https://cdn.datatables.net/plug-ins/1.10.22/i18n/Spanish.json'
-        },
 
-       
-         'responsive': true,
-          "order": [[ 0, "desc" ]]
-         
-  } );
-    } );
-
-  
- </script>
 
 
 

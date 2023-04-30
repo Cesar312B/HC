@@ -8,13 +8,20 @@ use App\Entity\Pacientes;
 use App\Entity\Provincia;
 
 use App\Form\ProvinciaType;
+use App\Repository\AntPatologicosRepository;
 use App\Repository\ConsultaRepository;
 use App\Repository\PacientesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\AntReproductivosRepository;
+use App\Repository\AntNoPatologicosRepository;
+use App\Repository\OtrosAntecedentesRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use App\Repository\AntHeredofamiliaresRepository;
+use App\Repository\AntQuirugicosRepository;
+use App\Repository\AntLaboralesRepository;
 
 class FullAntecedentesController extends AbstractController
 {
@@ -22,23 +29,40 @@ class FullAntecedentesController extends AbstractController
      * @Route("/paciente/{id}/consulta/{c}", name="full_antecedentes", methods={"GET","POST"})
      * @IsGranted("IS_AUTHENTICATED_FULLY",message="No tiene acceso a esta pagina")
      */
-    public function index($id,$c,PacientesRepository $pacientesRepository, ConsultaRepository $consultaRepository)
+    public function index($id,$c,PacientesRepository $pacientesRepository, ConsultaRepository $consultaRepository,AntPatologicosRepository $antPatologicosRepository,
+    AntReproductivosRepository $antReproductivosRepository,AntNoPatologicosRepository $antNoPatologicosRepository,OtrosAntecedentesRepository $otrosAntecedentesRepository,
+    AntHeredofamiliaresRepository $antHeredofamiliaresRepository,AntQuirugicosRepository $antQuirugicosRepository,AntLaboralesRepository $antLaboralesRepository )
     {
         $em= $this->getDoctrine()->getManager();
         $paciente= $em->getRepository(Pacientes::class)->find($id);
         $consulta= $em->getRepository(Consulta::class)->find($c);
+
         $a=$pacientesRepository->paciennte_Diagnostico($paciente->getId(),$consulta->getId());
         $c= $consultaRepository->consulta_examene($consulta->getId());
         $ex=$consultaRepository->consulta_examenef($consulta->getId());
-        $antp=$pacientesRepository->paciennte_antPatologicos($paciente->getId());
-        $antr=$pacientesRepository->paciennte_antReproductivos($paciente->getId());
-        $antn=$pacientesRepository->paciennte_antNopatologicos($paciente->getId());
-        $anto=$pacientesRepository->paciennte_OtrosAntecedentes($paciente->getId());
-        $antf=$pacientesRepository->paciente_AntFamiliares($paciente->getId());
-        $antq=$pacientesRepository->paciente_AntQuirugicos($paciente->getId());
-        $antl=$pacientesRepository->paciente_AntLaborales($paciente->getId());
         $puesto= $pacientesRepository->paciente_puestotrabajo($paciente->getId());
 
+       /* if ($consulta) {*/
+         $antp =$antPatologicosRepository->findBy(['pacientes' =>$paciente]);
+         $antr=$antReproductivosRepository->findBy(['pacientes'=>$paciente]);
+         $antn=$antNoPatologicosRepository->findBy(['pacientes'=>$paciente]);
+         $anto=$otrosAntecedentesRepository->findBy(['pacientes'=>$paciente]); 
+        /* $antf= $antHeredofamiliaresRepository->findBy(['pacientes'=>$paciente,'consulta'=>$consulta]);*/
+         $antf= $antHeredofamiliaresRepository->findBy(['pacientes'=>$paciente]);
+         $antq=$antQuirugicosRepository->findBy(['pacientes'=>$paciente]);
+         $antl= $antLaboralesRepository->findBy(['pacientes'=>$paciente]); 
+      
+      /*
+      } else {
+         $antp = $antPatologicosRepository->findBy(['pacientes' => $paciente]);
+         $antr=$antReproductivosRepository->findBy(['pacientes'=>$paciente]);
+         $antn=$antNoPatologicosRepository->findBy(['pacientes'=>$paciente]);
+         $anto=$otrosAntecedentesRepository->findBy(['pacientes'=>$paciente]);
+         $antf= $antHeredofamiliaresRepository->findBy(['pacientes'=>$paciente]);
+         $antq=$antQuirugicosRepository->findBy(['pacientes'=>$paciente]);
+         $antl= $antLaboralesRepository->findBy(['pacientes'=>$paciente]);*/
+      
+        
             
       return $this->render('full_antecedentes/index.html.twig',[
          'paciente'=>$paciente,

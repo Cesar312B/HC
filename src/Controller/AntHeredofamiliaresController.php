@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use DateTime;
 
 /**
  * @Route("/ant/heredofamiliares")
@@ -40,7 +41,6 @@ class AntHeredofamiliaresController extends AbstractController
         $em= $this->getDoctrine()->getManager();
         $paciente= $em->getRepository(Pacientes::class)->find($id);
         $consulta= $em->getRepository(Consulta::class)->find($c);
-        $a= $antHeredofamiliaresRepository->findBy(['pacientes'=>$paciente,'consulta'=>$consulta]);
         $a2= $antHeredofamiliaresRepository->findBy(['pacientes'=>$paciente]);
         $antHeredofamiliare = new AntHeredofamiliares();
         $form = $this->createForm(AntHeredofamiliaresType::class, $antHeredofamiliare);
@@ -49,7 +49,7 @@ class AntHeredofamiliaresController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $antHeredofamiliare->setPacientes($paciente);
-            $antHeredofamiliare->setConsulta($consulta);
+            $antHeredofamiliare->setCreatdate(new DateTime());
             $entityManager->persist($antHeredofamiliare);
             $entityManager->flush();
             $this->addFlash('exito','Registro guardado con éxito');
@@ -60,7 +60,6 @@ class AntHeredofamiliaresController extends AbstractController
         return $this->render('ant_heredofamiliares/new.html.twig', [
             'consulta'=>$consulta,
             'paciente'=>$paciente,
-            'antecedentes'=>$a,
             'antecedentes2'=>$a2,
             'ant_heredofamiliare' => $antHeredofamiliare,
             'c'=>$consultaRepository->consulta_examene($consulta->getId()),
@@ -89,8 +88,9 @@ class AntHeredofamiliaresController extends AbstractController
         $form = $this->createForm(AntHeredofamiliaresType::class, $antHeredofamiliare);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $antHeredofamiliare->setUpdatedate(new DateTime());
             $this->getDoctrine()->getManager()->flush();
-            return $this->redirect($request->getUri());
+            $this->addFlash('exito','Registro Actualizado con éxito');
             return $this->redirect($request->getUri());
         }
 

@@ -54,6 +54,17 @@ class AntQuirugicos
      */
     private $consulta;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $creatdate;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedate;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -142,4 +153,29 @@ class AntQuirugicos
 
         return $this;
     }
+
+    public function getCreatdate(): ?\DateTimeInterface
+    {
+        return $this->creatdate;
+    }
+
+    public function setCreatdate(?\DateTimeInterface $creatdate): self
+    {
+        $this->creatdate = $creatdate;
+
+        return $this;
+    }
+
+    public function getUpdatedate(): ?\DateTimeInterface
+    {
+        return $this->updatedate;
+    }
+
+    public function setUpdatedate(?\DateTimeInterface $updatedate): self
+    {
+        $this->updatedate = $updatedate;
+
+        return $this;
+    }
+
 }

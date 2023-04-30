@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use DateTime;
 
 /**
  * @Route("/ant/quirugicos")
@@ -41,7 +42,6 @@ class AntQuirugicosController extends AbstractController
         $em= $this->getDoctrine()->getManager();
         $paciente= $em->getRepository(Pacientes::class)->find($id);
         $consulta= $em->getRepository(Consulta::class)->find($c);
-        $a=$antQuirugicosRepository->findBy(['pacientes'=>$paciente,'consulta'=>$consulta]);
         $a2=$antQuirugicosRepository->findBy(['pacientes'=>$paciente]);
         $antQuirugico = new AntQuirugicos();
         $form = $this->createForm(AntQuirugicosType::class, $antQuirugico);
@@ -50,7 +50,7 @@ class AntQuirugicosController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $antQuirugico->setPacientes($paciente);
-            $antQuirugico->setConsulta($consulta);
+            $antQuirugico->setCreatdate(new DateTime());
             $entityManager->persist($antQuirugico);
             $entityManager->flush();
             return $this->redirect($request->getUri());
@@ -58,7 +58,6 @@ class AntQuirugicosController extends AbstractController
 
         return $this->render('ant_quirugicos/new.html.twig', [
             'consulta'=>$consulta,
-            'antecedentes'=>$a,
             'antecedentes2'=>$a2,
             'paciente'=>$paciente,
             'c'=>$consultaRepository->consulta_examene($consulta->getId()),
@@ -88,8 +87,9 @@ class AntQuirugicosController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $antQuirugico->setUpdatedate(new DateTime());
             $this->getDoctrine()->getManager()->flush();
-
+            $this->addFlash('exito','Registro Actualizado con éxito');
             return $this->redirect($request->getUri());
         }
 

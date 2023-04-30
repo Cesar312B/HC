@@ -6,6 +6,7 @@ use App\Entity\Consulta;
 use App\Entity\ExamenFisico;
 use App\Entity\Pacientes;
 use App\Form\ExamenFisicoType;
+use App\Form\ExamenFisicoType2;
 use App\Repository\ConsultaRepository;
 use App\Repository\ExamenesRepository;
 use App\Repository\ExamenFisicoRepository;
@@ -41,8 +42,9 @@ class ExamenFisicoController extends AbstractController
         $em= $this->getDoctrine()->getManager();
         $paciente= $em->getRepository(Pacientes::class)->find($id);
         $consulta= $em->getRepository(Consulta::class)->find($c);
+        $fecha_consulta = $consulta->getFechaAtencion();
         $a=$consultaRepository->consulta_examenef($consulta->getId());
-        $a2=$consultaRepository->consulta_examenefull($paciente->getId());
+        $a2=$consultaRepository->consulta_examenefull($paciente->getId(),$consulta->getId(),$fecha_consulta);
         $examenFisico = new ExamenFisico();
         $form = $this->createForm(ExamenFisicoType::class, $examenFisico);
         $form->handleRequest($request);
@@ -52,7 +54,7 @@ class ExamenFisicoController extends AbstractController
             $examenFisico->setConsulta($consulta);
             $entityManager->persist($examenFisico);
             $entityManager->flush();
-
+            $this->addFlash('exito','Registro Guardado con Éxito');
             return $this->redirect($request->getUri());
         }
 
@@ -89,11 +91,55 @@ class ExamenFisicoController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
+            $this->addFlash('exito','Registro Actualizado con éxito');
             return $this->redirect($request->getUri());
         }
 
         return $this->render('examen_fisico/edit.html.twig', [
+            'consulta'=>$consulta,
+            'paciente'=>$paciente,
+            'examen_fisico' => $examenFisico,
+            'form' => $form->createView(),
+        ]);
+    }
+
+
+      /**
+     * @Route("/copiar/fisico/{id}/paciente/{p}/consulta{c}", name="examen_fisico_copiar", methods={"GET","POST"})
+     */
+    public function copiar(Request $request, ExamenFisico $examenFisico,$p,$c): Response
+    {
+        $em= $this->getDoctrine()->getManager();
+        $paciente= $em->getRepository(Pacientes::class)->find($p);
+        $consulta= $em->getRepository(Consulta::class)->find($c);
+        $examenFisico2 = new ExamenFisico();
+        $form = $this->createForm(ExamenFisicoType2::class, $examenFisico);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data= $form->getData();
+            $examenFisico2->setConsulta($consulta);
+            $examenFisico2->setPiel($data->getPiel());
+            $examenFisico2->setOjos($data->getOjos());
+            $examenFisico2->setOido($data->getOido());
+            $examenFisico2->setOroFarinje($data->getOroFarinje());
+            $examenFisico2->setNariz($data->getNariz());
+            $examenFisico2->setCuello($data->getCuello());
+            $examenFisico2->setTorax1($data->getTorax1());
+            $examenFisico2->setAbdomen($data->getAbdomen());
+            $examenFisico2->setColumna($data->getColumna());
+            $examenFisico2->setPelvis($data->getPelvis());
+            $examenFisico2->setExtremidades($data->getExtremidades());
+            $examenFisico2->setNeurologico($data->getNeurologico());
+            $examenFisico2->setObservaciones($data->getObservaciones());
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($examenFisico2);
+            $entityManager->flush();
+            $this->addFlash('exito','Registro copiado con exito en la consulta actual');
+            return $this->redirect($request->getUri());
+        }
+
+        return $this->render('examen_fisico/copy.html.twig', [
             'consulta'=>$consulta,
             'paciente'=>$paciente,
             'examen_fisico' => $examenFisico,

@@ -34,7 +34,7 @@ class ConsultaRepository extends ServiceEntityRepository
       return $q->getQuery()->getResult();
       }
 
-      public function consulta_examene_full($id_user){
+      public function consulta_examene_full($id_user,$consulta,$fecha_consulta){
 
   
         $q= $this->getEntityManager()->createQueryBuilder();
@@ -44,7 +44,12 @@ class ConsultaRepository extends ServiceEntityRepository
         ->innerJoin('App:examenes','s',\Doctrine\ORM\Query\Expr\Join::WITH,'p=s.consulta')
         ->innerJoin('App:pacientes','m',\Doctrine\ORM\Query\Expr\Join::WITH,'m=p.pacientes')
         ->where('m.id=:user_id')
-        ->setParameter('user_id',$id_user);
+        ->andWhere('p.id != :consulta_id')
+        ->andWhere('p.fecha_atencion < :fecha_consulta')
+        ->setParameter('user_id',$id_user)
+        ->setParameter('consulta_id',$consulta)
+        ->setParameter('fecha_consulta',$fecha_consulta);
+        
         
       
       return $q->getQuery()->getResult();
@@ -67,7 +72,7 @@ class ConsultaRepository extends ServiceEntityRepository
       return $q->getQuery()->getResult();
       }
 
-      public function consulta_nutricional_full($id_user){
+      public function consulta_nutricional_full($id_user,$consulta,$fecha_consulta){
 
   
         $q= $this->getEntityManager()->createQueryBuilder();
@@ -79,7 +84,12 @@ class ConsultaRepository extends ServiceEntityRepository
         ->innerJoin('App:subtiponutricional','x',\Doctrine\ORM\Query\Expr\Join::WITH,'x=s.suptipo_nutricional')
         ->innerJoin('App:tiponutricional','y',\Doctrine\ORM\Query\Expr\Join::WITH,'y=x.tipo_nutricional')
         ->where('m.id=:user_id')
-        ->setParameter('user_id',$id_user);
+        ->andWhere('p.id != :consulta_id')
+        ->andWhere('p.fecha_atencion < :fecha_consulta')
+        ->setParameter('user_id',$id_user)
+        ->setParameter('consulta_id',$consulta)
+        ->setParameter('fecha_consulta',$fecha_consulta);
+
       return $q->getQuery()->getResult();
       }
 
@@ -100,7 +110,7 @@ class ConsultaRepository extends ServiceEntityRepository
       }
 
 
-      public function consulta_examenefull($id_user){
+      public function consulta_examenefull($id_user,$consulta,$fecha_consulta){
 
   
         $q= $this->getEntityManager()->createQueryBuilder();
@@ -109,10 +119,12 @@ class ConsultaRepository extends ServiceEntityRepository
         ->from('App:consulta','p')
         ->innerJoin('App:examenfisico','s',\Doctrine\ORM\Query\Expr\Join::WITH,'p=s.consulta')
         ->innerJoin('App:pacientes','m',\Doctrine\ORM\Query\Expr\Join::WITH,'m=p.pacientes')
-        ->Where('m.id=:user_id')
+        ->where('m.id=:user_id')
+        ->andWhere('p.id != :consulta_id')
+        ->andWhere('p.fecha_atencion < :fecha_consulta')
         ->setParameter('user_id',$id_user)
-       ;
-        
+        ->setParameter('consulta_id',$consulta)
+        ->setParameter('fecha_consulta',$fecha_consulta);
       
       return $q->getQuery()->getResult();
       }

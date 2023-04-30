@@ -33,13 +33,14 @@ class TratamientoController extends AbstractController
     }
 
     /**
-     * @Route("/paciente/{p}/diagnostico/{d}", name="tratamiento_new", methods={"GET","POST"})
+     * @Route("/paciente/{p}/consulta/{c}/diagnostico/{d}", name="tratamiento_new", methods={"GET","POST"})
      */
-    public function new(Request $request,$p,$d,TratamientoRepository $tratamientoRepository): Response
+    public function new(Request $request,$p,$c,$d,TratamientoRepository $tratamientoRepository): Response
     {
     
         $em= $this->getDoctrine()->getManager();
         $paciente= $em->getRepository(Pacientes::class)->find($p);
+        $consulta= $em->getRepository(Consulta::class)->find($c);
         $diagnostico= $em->getRepository(Diagnostico::class)->find($d);
 
         $tratamiento = new Tratamiento();
@@ -52,12 +53,13 @@ class TratamientoController extends AbstractController
             $tratamiento->setDiagnostico($diagnostico);
             $entityManager->persist($tratamiento);
             $entityManager->flush();
-           
+            $this->addFlash('exito','Registro Guardado con Éxito');
             return $this->redirect($request->getUri());
           
         }
 
         return $this->render('tratamiento/new.html.twig', [
+            'consulta'=>$consulta,
             'paciente'=>$paciente,
             'diagnostico' =>$diagnostico,
             'tratamientos' => $tratamientoRepository->findBy(['diagnostico'=>$diagnostico]),
@@ -76,12 +78,13 @@ class TratamientoController extends AbstractController
     }
 
     /**
-     * @Route("/trat/{id}/paciente/{p}/diagnostico/{d}/", name="tratamiento_edit", methods={"GET","POST"})
+     * @Route("/trat/{id}/paciente/{p}/consulta/{c}/diagnostico/{d}/", name="tratamiento_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Tratamiento $tratamiento,$p,$d): Response
+    public function edit(Request $request, Tratamiento $tratamiento,$p,$d,$c): Response
     {
         $em= $this->getDoctrine()->getManager();
         $paciente= $em->getRepository(Pacientes::class)->find($p);
+        $consulta= $em->getRepository(Consulta::class)->find($c);
         $diagnostico= $em->getRepository(Diagnostico::class)->find($d);
       
         $form = $this->createForm(TratamientoType::class, $tratamiento);
@@ -89,11 +92,12 @@ class TratamientoController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
+            $this->addFlash('exito','Registro Actualizado con éxito');
             return $this->redirect($request->getUri());
         }
 
         return $this->render('tratamiento/edit.html.twig', [
+            'consulta'=>$consulta,
             'diagnostico' =>$diagnostico,
             'paciente'=>$paciente,
             'tratamiento' => $tratamiento,

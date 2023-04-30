@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use DateTime;
 /**
  * @Route("/ant/patologicos")
  * @IsGranted("IS_AUTHENTICATED_FULLY",message="No tiene acceso a esta pagina")
@@ -39,7 +40,6 @@ class AntPatologicosController extends AbstractController
         $em= $this->getDoctrine()->getManager();
         $paciente= $em->getRepository(Pacientes::class)->find($id);
         $consulta= $em->getRepository(Consulta::class)->find($c);
-        $a=$antPatologicosRepository->findBy(['pacientes'=>$paciente,'consulta'=>$consulta]);
         $a2=$antPatologicosRepository->findBy(['pacientes'=>$paciente]);
         $antPatologico = new AntPatologicos();
         $form = $this->createForm(AntPatologicosType::class, $antPatologico);
@@ -47,7 +47,7 @@ class AntPatologicosController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $antPatologico->setPacientes($paciente);
-            $antPatologico->setConsulta($consulta);
+            $antPatologico->setCreatdate(new DateTime());
             $entityManager->persist($antPatologico);
             $entityManager->flush();
             $this->addFlash('exito','Registro Guardado con Éxito');
@@ -57,7 +57,6 @@ class AntPatologicosController extends AbstractController
 
         return $this->render('ant_patologicos/new.html.twig', [
             'consulta'=>$consulta,
-            'antecedentes'=>$a,
             'antecedentes2'=>$a2,
             'paciente'=>$paciente,
             'ant_patologico' => $antPatologico,
@@ -88,8 +87,9 @@ class AntPatologicosController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $antPatologico->setUpdatedate(new DateTime());
             $this->getDoctrine()->getManager()->flush();
-
+            $this->addFlash('exito','Registro Actualizado con éxito');
             return $this->redirect($request->getUri());
         }
 

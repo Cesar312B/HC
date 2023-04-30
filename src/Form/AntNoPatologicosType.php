@@ -31,15 +31,15 @@ class AntNoPatologicosType extends AbstractType
                 'attr' => ['class' => 'text-uppercase' ],
             ])
             ->add('numero_actividad_fisica',ChoiceType::class,[
-                'label'=>'Frecuencia',
-                'placeholder'=>'Frecuencia',
-                'required' => false,
-                'choices'=>[
-                 'Diario' => 'Diario',
-                 'Semanal' => 'Semanal',
-                 'Quincenal' => 'Quincenal',
-                 'Mensual' => 'Mensual',
-                 'Ocasional' => 'Ocasional',
+                 'label'=>'Frecuencia de Actividad',
+                 'required' => false,
+                 'placeholder'=>'Frecuencia',
+                 'choices'=>[
+                 'Diario' => 'DIARIO',
+                 'Semanal' => 'SEMANAL',
+                 'Quincenal' => 'QUINCENAL',
+                 'Mensual' => 'MENSUAL',
+                 'Ocasional' => 'OCASIONAL',
                 ]
             ])
 
@@ -56,12 +56,12 @@ class AntNoPatologicosType extends AbstractType
                 'placeholder'=>'Frecuencia',
                 'required' => false,
                 'choices'=>[
-                 'Diario' => 'Diario',
-                 'Semanal' => 'Semanal',
-                 'Quincenal' => 'Quincenal',
-                 'Mensual' => 'Mensual',
-                 'Ocasional' => 'Ocasional',
-                ]
+                    'Diario' => 'DIARIO',
+                    'Semanal' => 'SEMANAL',
+                    'Quincenal' => 'QUINCENAL',
+                    'Mensual' => 'MENSUAL',
+                    'Ocasional' => 'OCASIONAL',
+                   ]
             ])
 
             ->add('cantidad_a',NumberType::class,[
@@ -97,12 +97,12 @@ class AntNoPatologicosType extends AbstractType
                 'placeholder'=>'Frecuencia',
                 'required' => false,
                 'choices'=>[
-                 'Diario' => 'Diario',
-                 'Semanal' => 'Semanal',
-                 'Quincenal' => 'Quincenal',
-                 'Mensual' => 'Mensual',
-                 'Ocasional' => 'Ocasional',
-                ]
+                    'Diario' => 'DIARIO',
+                    'Semanal' => 'SEMANAL',
+                    'Quincenal' => 'QUINCENAL',
+                    'Mensual' => 'MENSUAL',
+                    'Ocasional' => 'OCASIONAL',
+                   ]
             ])
 
             ->add('cantidad',NumberType::class,[
@@ -150,12 +150,12 @@ class AntNoPatologicosType extends AbstractType
                 'placeholder'=>'Frecuencia',
                 'required' => false,
                 'choices'=>[
-                 'Diario' => 'Diario',
-                 'Semanal' => 'Semanal',
-                 'Quincenal' => 'Quincenal',
-                 'Mensual' => 'Mensual',
-                 'Ocasional' => 'Ocasional',
-                ]
+                    'Diario' => 'DIARIO',
+                    'Semanal' => 'SEMANAL',
+                    'Quincenal' => 'QUINCENAL',
+                    'Mensual' => 'MENSUAL',
+                    'Ocasional' => 'OCASIONAL',
+                   ]
             ])
 
             ->add('numero_sustancias',NumberType::class,[

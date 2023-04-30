@@ -11,25 +11,27 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Range;
 
-class ExamenesType extends AbstractType
+class ExamenesType2 extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('nombre_examen',ChoiceType::class,[
+                'disabled' => true,
                 'required' => false,
                 'label'=>'Tipo de muestra',
                 'placeholder'=>'Seleccione un tipo de examen',
                 'choices'=>[
-                 'ORINA' => 'ORINA',
-                 'HECES' => 'HECES',
-                 'BIOPSIA' => 'BIOPSIA',
-                 'SANGRE' => 'SANGRE',
-                 'SECRECIONES' => 'SECRECIONES',
-                ]
+                    'ORINA' => 'ORINA',
+                    'HECES' => 'HECES',
+                    'BIOPSIA' => 'BIOPSIA',
+                    'SANGRE' => 'SANGRE',
+                    'SECRECIONES' => 'SECRECIONES',
+                   ]
 
             ])
             ->add('fecha_examen',BirthdayType::class,[
+                'disabled' => true,
                 'years' => range(2017, date("Y")),
                 'constraints' => new Range(['max'=>"now"]),
                 'required' => false,
@@ -39,11 +41,13 @@ class ExamenesType extends AbstractType
             ]
             ])
             ->add('resultado_examen',TextType::class,[
+                'disabled' => true,
                 'required' => false,
                 'label'=>'Resultados de Exámenes',
                 'attr' => ['class' => 'text-uppercase' ],
             ])
             ->add('Observaciones',TextType::class,[
+                'disabled' => true,
                 'required' => false,
                 'attr' => ['class' => 'text-uppercase' ],
             ])
